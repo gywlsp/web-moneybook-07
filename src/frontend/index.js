@@ -9,9 +9,16 @@ const $app = document.createElement('div');
 $app.id = 'app';
 document.querySelector('body').appendChild($app);
 
+const getSelectedTab = () => {
+  const { pathname } = window.location
+  if (pathname === '/calendar') return 'calendar';
+  if (pathname === '/statistics') return 'statistics'
+  return 'detail';
+}
+
 const currentDate = new Date();
 
-globalStore.init('selectedTab', 'detail');
+globalStore.init('selectedTab', getSelectedTab());
 
 globalStore.init('globalState', {
   year: currentDate.getFullYear(),
@@ -26,6 +33,10 @@ globalStore.init('detailState', {
 globalStore.init('statisticsState', {
   categoryId: null,
 });
+
+window.addEventListener("popstate", () => {
+  globalStore.set("selectedTab", getSelectedTab())
+})
 
 // eslint-disable-next-line no-unused-vars
 const globalHeader = new GlobalHeader();
