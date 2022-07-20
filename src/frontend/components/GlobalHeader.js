@@ -1,3 +1,5 @@
+import globalStore from '../stores/global.js';
+
 import detailIcon from '../assets/file-text.svg';
 import calendarIcon from '../assets/calendar.svg';
 import chartIcon from '../assets/chart.svg';
@@ -23,6 +25,8 @@ export default class GlobalHeader {
     this.$target = document.createElement('header');
     this.$target.classList.add('global-header');
     document.querySelector('#app').appendChild(this.$target);
+    globalStore.subscribe('selectedTab', this.render.bind(this));
+    globalStore.subscribe('globalState', this.render.bind(this));
     this.render();
   }
 
