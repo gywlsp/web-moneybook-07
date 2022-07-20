@@ -28,6 +28,17 @@ export default class GlobalHeader {
     globalStore.subscribe('selectedTab', this.render.bind(this));
     globalStore.subscribe('globalState', this.render.bind(this));
     this.render();
+    this.handleEvent();
+  }
+
+  handleEvent() {
+    this.$target.addEventListener('click', e => {
+      const $homeButton = e.target.closest('.home-button');
+      if ($homeButton) {
+        globalStore.set('selectedTab', 'detail');
+        return;
+      }
+    });
   }
 
   render() {
