@@ -5,6 +5,8 @@ import calendarIcon from '../assets/calendar.svg';
 import chartIcon from '../assets/chart.svg';
 import chevronLeftIcon from '../assets/chevron-left.svg';
 import chevronRightIcon from '../assets/chevron-right.svg';
+import {getNextMonth, getPrevMonth} from '../utils/date.js';
+
 const tabData = [
   {
     name: 'detail',
@@ -46,6 +48,12 @@ export default class GlobalHeader {
         const {year: newYear, month: newMonth} = getNewMonth({year, month});
         globalStore.set('globalState', {year: newYear, month: newMonth});
         return;
+      }
+
+      const $viewTab = e.target.closest('.view-tab');
+      if ($viewTab) {
+        const {name} = $viewTab.dataset;
+        globalStore.set('selectedTab', name);
       }
     });
   }
