@@ -3,6 +3,20 @@ import calendarIcon from '../assets/calendar.svg';
 import chartIcon from '../assets/chart.svg';
 import chevronLeftIcon from '../assets/chevron-left.svg';
 import chevronRightIcon from '../assets/chevron-right.svg';
+const tabData = [
+  {
+    name: 'detail',
+    icon: detailIcon,
+  },
+  {
+    name: 'calendar',
+    icon: calendarIcon,
+  },
+  {
+    name: 'statistics',
+    icon: chartIcon,
+  },
+];
 
 export default class GlobalHeader {
   constructor() {
