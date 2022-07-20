@@ -8,7 +8,6 @@ const webpackConfig = require('../webpack.config.js');
 
 const compiler = webpack(webpackConfig);
 
-const indexRouter = require('./backend/routes/index.js');
 const usersRouter = require('./backend/routes/users.js');
 
 const app = express();
@@ -25,11 +24,12 @@ if (process.env.NODE_ENV === 'development') {
   app.use('/', middleware(compiler, {}));
 }
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.resolve(__dirname, 'frontend/public/dist')));
-}
+app.use(express.static(path.resolve(__dirname, 'frontend/public/dist')));
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/*', (req, res) => {
+  res.sendFile(`${__dirname}/frontend/public/dist/index.html`)
+});
 
 module.exports = app;

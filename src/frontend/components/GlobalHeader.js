@@ -22,6 +22,12 @@ const tabData = [
   },
 ];
 
+const routes = {
+  detail: '/',
+  calendar: '/calendar',
+  statistics: '/statistics'
+}
+
 export default class GlobalHeader {
   constructor() {
     this.$target = document.createElement('header');
@@ -38,6 +44,7 @@ export default class GlobalHeader {
       const $homeButton = e.target.closest('.home-button');
       if ($homeButton) {
         globalStore.set('selectedTab', 'detail');
+        window.history.pushState({}, null, '/')
         return;
       }
 
@@ -54,6 +61,7 @@ export default class GlobalHeader {
       if ($viewTab) {
         const {name} = $viewTab.dataset;
         globalStore.set('selectedTab', name);
+        window.history.pushState({}, null, routes[name])
       }
     });
   }
