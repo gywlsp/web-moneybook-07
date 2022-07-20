@@ -1,0 +1,58 @@
+.global-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--primary-color-1);
+  padding: 4rem 0;
+}
+
+.home-button {
+  font-size: 2.4rem;
+  color: var(--off-white-color);
+}
+
+.month-controller {
+  display: flex;
+  align-items: center;
+}
+
+.prev-month-button {
+  margin-right: 5.2rem;
+}
+
+.next-month-button {
+  margin-left: 5.2rem;
+}
+
+.year-month-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--off-white-color);
+}
+
+p.month-view {
+  font-size: 4.8rem;
+  margin-bottom: 0.8rem;
+}
+
+p.year-view {
+  font-size: 2.4rem;
+}
+
+.view-tabs-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.view-tab {
+  margin: 1.2rem;
+}
+
+.view-tab > img {
+  filter: invert(84%) sepia(17%) saturate(519%) hue-rotate(130deg) brightness(98%) contrast(94%);
+}
+
+.view-tab.selected > img {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+}
