@@ -27,6 +27,8 @@ export default class GlobalHeader {
   }
 
   render() {
+    const selectedTab = globalStore.get('selectedTab');
+    const {year, month} = globalStore.get('globalState');
     this.$target.innerHTML = `
     <button class="home-button">우아한 가계부 🧚🏻‍♀️</button>
     <div class="month-controller">
@@ -34,23 +36,21 @@ export default class GlobalHeader {
             <img src="${chevronLeftIcon}" alt="Chevron Left Icon"/>
         </button>
         <div class="year-month-wrapper">
-            <p class="month-view">7월</p>
-            <p class="year-view">2021</p>
+            <p class="month-view">${month}월</p>
+            <p class="year-view">${year}년</p>
         </div>
         <button class="next-month-button">
             <img src="${chevronRightIcon}" alt="Chevron Right Icon"/>
         </button>
     </div>
     <ul class="view-tabs-wrapper">
-        <li class="view-tab selected">
-            <img src="${detailIcon}" alt="Detail Icon"/>
-        </li>
-        <li class="view-tab">
-            <img src="${calendarIcon}" alt="Calendar Icon"/>
-        </li>
-        <li class="view-tab">
-            <img src="${chartIcon}" alt="Chart icon"/>
-        </li>
+        ${tabData
+          .map(
+            ({name, icon}) => `<li data-name="${name}" class="view-tab ${selectedTab === name ? 'selected' : ''}">
+                <img src="${icon}" alt="${name}-icon"/>
+            </li>`,
+          )
+          .join('')}
     </ul> 
     `;
   }
