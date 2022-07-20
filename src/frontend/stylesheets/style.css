@@ -28,9 +28,29 @@
   font-style: normal;
 }
 
-body {
+* {
   font-family: 'BMDOHYEON';
   box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 @media (max-width: 319px) {
