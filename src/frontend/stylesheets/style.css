@@ -21,16 +21,13 @@
   --category-color-10: #e2b765;
 }
 
+@font-face {
+  font-family: 'BMDOHYEON';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  padding: 50px;
-  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00b7ff;
-}
-
-img {
-  filter: invert(45%) sepia(63%) saturate(1946%) hue-rotate(162deg)
-    brightness(95%) contrast(101%);
+  font-family: 'BMDOHYEON';
 }
