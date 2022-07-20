@@ -3,7 +3,8 @@ import './stylesheets/global.css';
 
 import globalStore from './stores/global.js';
 
-import closeIcon from './assets/closeIcon.svg';
+import GlobalHeader from './components/GlobalHeader.js';
+
 const $app = document.createElement('div');
 $app.id = 'app';
 document.querySelector('body').appendChild($app);
@@ -25,6 +26,6 @@ globalStore.init('detailState', {
 globalStore.init('statisticsState', {
   categoryId: null,
 });
-const $img = document.createElement('img');
-$img.src = closeIcon;
-document.querySelector('body').appendChild($img);
+
+// eslint-disable-next-line no-unused-vars
+const globalHeader = new GlobalHeader();
