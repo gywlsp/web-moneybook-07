@@ -38,6 +38,15 @@ export default class GlobalHeader {
         globalStore.set('selectedTab', 'detail');
         return;
       }
+
+      const $monthControlButton = e.target.closest('.month-controller > button');
+      if ($monthControlButton) {
+        const getNewMonth = $monthControlButton.classList.contains('prev-month-button') ? getPrevMonth : getNextMonth;
+        const {year, month} = globalStore.get('globalState');
+        const {year: newYear, month: newMonth} = getNewMonth({year, month});
+        globalStore.set('globalState', {year: newYear, month: newMonth});
+        return;
+      }
     });
   }
 
