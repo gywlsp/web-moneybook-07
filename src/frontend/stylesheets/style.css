@@ -1,3 +1,5 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 :root {
   --title-active-color: #1e2222;
   --body-color: #626666;
@@ -29,7 +31,7 @@
 }
 
 * {
-  font-family: 'BMDOHYEON';
+  font-family: 'Noto Sans KR', sans-serif;
   box-sizing: border-box;
 }
 

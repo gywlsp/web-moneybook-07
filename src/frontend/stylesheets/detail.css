@@ -1,0 +1,140 @@
+.history-detail-adder {
+  display: flex;
+  width: 100%;
+  background-color: var(--off-white-color);
+  border: 1px solid #c1c5c5;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+}
+
+.history-detail-adder-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 2.4rem;
+  margin: 1.6rem 0;
+}
+
+.history-detail-adder-item:not(:first-child) {
+  border-left: 1px solid var(--placeholder-color);
+}
+
+.history-detail-adder-item > label {
+  color: var(--primary-color-3);
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.history-detail-adder-input-wrapper > input {
+  border: none;
+  font-size: 1.6rem;
+  background: none;
+}
+
+.history-detail-adder-input-wrapper > input[name='dateString'] {
+  width: 10rem;
+}
+
+.history-detail-adder-input-wrapper > input[name='price'] {
+  width: 10rem;
+}
+
+.history-detail-adder-input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.plus-minus-toggleBtn {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-right: 1.2rem;
+}
+
+.plus-minus-toggleBtn > img {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.history-detail-adder-input-wrapper > p {
+  margin-left: 1.2rem;
+  font-size: 1.6rem;
+}
+
+.history-detail-adder-input-wrapper > input[name='price'] {
+  text-align: right;
+}
+
+.history-detail-adder-select-wrapper {
+  position: relative;
+  width: 14.8rem;
+  font-size: 1.6rem;
+}
+
+.history-detail-adder-select {
+  display: none;
+}
+
+.select-selected {
+  color: var(--label-color);
+  padding: 0 0.4rem;
+  margin-top: 0.1rem;
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: '';
+  top: 1rem;
+  right: 1rem;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: var(--title-active-color) transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent var(--title-active-color) transparent;
+  top: 0.4rem;
+}
+
+/* style the items (options), including the selected item: */
+.select-item,
+.select-selected {
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background: var(--off-white-color);
+  color: var(--title-active-color);
+  top: 5.6rem;
+  left: 0;
+  right: 0;
+  z-index: 99;
+
+  border: 1px solid var(--line-color);
+  /* Elevation1 */
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.select-item {
+  padding: 1.2rem 2rem;
+}
+
+.select-item:not(:last-child) {
+  border-bottom: 1px solid var(--line-color);
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
