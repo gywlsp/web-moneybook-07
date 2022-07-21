@@ -1,4 +1,5 @@
 import AccountHistoryDetailAdderItem from './Item.js';
+import AccountHistoryDetailAdderSubmitBtn from './SubmitBtn.js';
 
 const ADDER_ITEM_DATA = [
   {label: '일자', name: 'dateString', itemType: 'input'},
@@ -17,11 +18,35 @@ export default class AccountHistoryDetailAdder {
     this.detailModel = model;
 
     this.render();
+    this.handleEvent();
+  }
+
+  handleEvent() {
+    const $submitBtn = this.$target.querySelector('.history-detail-adder-submitBtn');
+    this.$target.addEventListener('input', () => {
+      const $dateStringInput = this.$target.querySelector('input[name="dateString"]');
+      const $categorySelect = this.$target.querySelector('select[name="category"]');
+      const $descriptionInput = this.$target.querySelector('input[name="description"]');
+      const $paymentSelect = this.$target.querySelector('select[name="payment"]');
+      const $priceInput = this.$target.querySelector('input[name="price"]');
+      if (
+        $dateStringInput.value.length !== 8 ||
+        !$categorySelect.value ||
+        !$descriptionInput.value ||
+        !$paymentSelect.value ||
+        !$priceInput.value
+      ) {
+        $submitBtn.disabled = true;
+        return;
+      }
+      $submitBtn.disabled = false;
+    });
   }
 
   render() {
     ADDER_ITEM_DATA.forEach(data => {
       new AccountHistoryDetailAdderItem({$parent: this.$target, model: this.detailModel, state: data});
     });
+    new AccountHistoryDetailAdderSubmitBtn({$parent: this.$target, model: this.detailModel});
   }
 }
