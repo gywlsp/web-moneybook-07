@@ -1,5 +1,5 @@
 const dbPool = require('../config/db.js');
-const { getListQuery, createHistoryQuery, updateHistoryQuery } = require('../query-statements/account-history.js');
+const { getListQuery, createHistoryQuery, updateHistoryQuery, getCategoriesQuery, getPaymentsQuery } = require('../query-statements/account-history.js');
 const { getHistoryResult } = require('./utils/account-history.js');
 
 const AccountHistoryService = {
@@ -32,6 +32,34 @@ const AccountHistoryService = {
       dbPool.query(selectQuery, (err, updateHistory) => {
         resCallback(updateHistory)
       })
+    })
+  },
+
+  getCategories(data, resCallback) {
+    const { year, month } = data
+    const sql = getCategoriesQuery({ year, month })
+    dbPool.query(sql, (err, categories) => {
+      const result = categories.reduce((acc, curr) => {
+        const { type, id, title, percentage, total } = curr
+        acc[type].push({
+          id,
+          title,
+          percentage,
+          total
+        })
+        return acc
+      }, {
+        income: [],
+        expenditure: []
+      })
+      resCallback(result)
+    })
+  },
+
+  getPayments(resCallback) {
+    const sql = getPaymentsQuery()
+    dbPool.query(sql, (err, payments) => {
+      resCallback(payments)
     })
   }
 };

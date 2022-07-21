@@ -31,6 +31,20 @@ const AccountHistoryController = {
     AccountHistoryService.updateHistory(data, updatedHistory => {
       res.status(200).send(updatedHistory)
     })
+  },
+
+  getCategories(req, res) {
+    const { year, month } = req.query;
+
+    AccountHistoryService.getCategories({ year, month }, categories => {
+      res.status(200).send(categories)
+    })
+  },
+
+  getPayments(req, res) {
+    AccountHistoryService.getPayments(payments => {
+      res.status(200).send(payments)
+    })
   }
 };
 
