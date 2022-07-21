@@ -25,8 +25,8 @@ const tabData = [
 const routes = {
   detail: '/',
   calendar: '/calendar',
-  statistics: '/statistics'
-}
+  statistics: '/statistics',
+};
 
 export default class GlobalHeader {
   constructor() {
@@ -44,7 +44,7 @@ export default class GlobalHeader {
       const $homeButton = e.target.closest('.home-button');
       if ($homeButton) {
         globalStore.set('selectedTab', 'detail');
-        window.history.pushState({}, null, '/')
+        window.history.pushState({}, null, '/');
         return;
       }
 
@@ -61,7 +61,7 @@ export default class GlobalHeader {
       if ($viewTab) {
         const {name} = $viewTab.dataset;
         globalStore.set('selectedTab', name);
-        window.history.pushState({}, null, routes[name])
+        window.history.pushState({}, null, routes[name]);
       }
     });
   }
@@ -77,7 +77,7 @@ export default class GlobalHeader {
         </button>
         <div class="year-month-wrapper">
             <p class="month-view">${month}월</p>
-            <p class="year-view">${year}년</p>
+            <p class="year-view">${year}</p>
         </div>
         <button class="next-month-button">
             <img src="${chevronRightIcon}" alt="Chevron Right Icon"/>
