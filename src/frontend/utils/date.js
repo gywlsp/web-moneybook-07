@@ -14,6 +14,8 @@ export const getNextMonth = ({year, month}) => {
 
 export const padZero = num => num.toString().padStart(2, '0');
 
+export const addDot = dateString => `${dateString.slice(0, 4)}.${dateString.slice(4, 6)}.${dateString.slice(6, 8)}`;
+
 export const getTodayDateString = () => {
   const today = new Date();
   const year = today.getFullYear();
