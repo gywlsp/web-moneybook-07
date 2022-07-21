@@ -24,7 +24,7 @@ export default class AccountHistoryDetailListByDate {
       new AccountHistoryDetailListByDateDetail({
         $parent: this.$target,
         model: this.detailModel,
-        state: detail,
+        state: {dateString, ...detail},
       });
     });
   }
