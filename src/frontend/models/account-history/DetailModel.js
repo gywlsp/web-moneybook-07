@@ -7,8 +7,8 @@ import {padZero} from '../../utils/date.js';
 export default class AccountHistoryDetailModel extends Observer {
   constructor() {
     super();
-    globalStore.subscribe('globalState', this.fetchHistory.bind(this));
-    globalStore.subscribe('detailState', this.fetchHistory.bind(this));
+    globalStore.subscribe('globalState', this.mutateHistory.bind(this));
+    globalStore.subscribe('detailState', this.mutateHistory.bind(this));
     this.data = {
       history: {totalIncome: 0, totalExpenditure: 0, dates: []},
       categories: {income: [], expenditure: []},
