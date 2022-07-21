@@ -1,5 +1,6 @@
 import globalStore from '../../stores/global.js';
 import AccountHistoryDetailAdder from '../../components/account-history/detail-adder/index.js';
+import AccountHistoryDetailList from '../../components/account-history/detail-list/index.js';
 
 export default class AccountHistoryDetailView {
   constructor({model}) {
@@ -23,5 +24,6 @@ export default class AccountHistoryDetailView {
     this.$target.innerHTML = '';
     this.$target.style.display = 'flex';
     new AccountHistoryDetailAdder({$parent: this.$target, model: this.detailModel});
+    new AccountHistoryDetailList({$parent: this.$target, model: this.detailModel});
   }
 }
