@@ -245,6 +245,7 @@
   padding: 2rem 0.8rem;
   border-bottom: 1px solid var(--line-color);
   font-size: 1.8rem;
+  cursor: pointer;
 }
 
 .history-detail-list-by-date-detail p.category-title {

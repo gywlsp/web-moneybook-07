@@ -46,6 +46,10 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: default;
+}
+
 p {
   margin: 0;
 }
