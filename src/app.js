@@ -8,7 +8,7 @@ const webpackConfig = require('../webpack.config.js');
 
 const compiler = webpack(webpackConfig);
 
-const usersRouter = require('./backend/routes/users.js');
+const accountHistoryRouter = require('./backend/routes/account-history.js');
 
 const app = express();
 
@@ -26,10 +26,10 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.static(path.resolve(__dirname, 'frontend/public/dist')));
 
-app.use('/users', usersRouter);
+app.use('/api/account-history', accountHistoryRouter);
 
 app.use('/*', (req, res) => {
-  res.sendFile(`${__dirname}/frontend/public/dist/index.html`)
+  res.sendFile(`${__dirname}/frontend/public/dist/index.html`);
 });
 
 module.exports = app;
