@@ -15,10 +15,10 @@ export default class AccountHistoryDetailListHeader {
 
   render() {
     const {
-      history: {totalIncome, totalExpenditure, dates},
+      history: {totalDetailCnt, totalIncome, totalExpenditure},
     } = this.detailModel.getData();
     this.$target.innerHTML = `
-        <p class="history-detail-list-total-cnt">전체 내역 ${dates.length}건</p>
+        <p class="history-detail-list-total-cnt">전체 내역 ${totalDetailCnt}건</p>
     `;
     const {income, expenditure} = globalStore.get('detailState');
     new FilterItem({
