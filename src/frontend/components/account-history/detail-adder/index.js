@@ -1,3 +1,4 @@
+import AccountHistoryAPI from '../../../api/history.js';
 import AccountHistoryDetailAdderItem from './Item.js';
 import AccountHistoryDetailAdderSubmitBtn from './SubmitBtn.js';
 
@@ -19,6 +20,15 @@ export default class AccountHistoryDetailAdder {
 
     this.render();
     this.handleEvent();
+  }
+
+  submitForm() {
+    const {id} = this.$target.dataset;
+    const submit = () =>
+      id === undefined ? AccountHistoryAPI.post(this.formData) : AccountHistoryAPI.put(id, this.formData);
+    submit().then(() => {
+      this.detailModel.mutateHistory();
+    });
   }
 
   handleEvent() {
