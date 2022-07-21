@@ -1,5 +1,6 @@
 .history-detail-adder {
   display: flex;
+  align-items: center;
   width: 100%;
   background-color: var(--off-white-color);
   border: 1px solid #c1c5c5;
@@ -8,7 +9,6 @@
 }
 
 .history-detail-adder-item {
-  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 0 2.4rem;
@@ -32,12 +32,13 @@
   background: none;
 }
 
-.history-detail-adder-input-wrapper > input[name='dateString'] {
-  width: 10rem;
+.history-detail-adder-input-wrapper > input[name='dateString'],
+.history-detail-adder-input-wrapper > input[name='price'] {
+  width: 8rem;
 }
 
-.history-detail-adder-input-wrapper > input[name='price'] {
-  width: 10rem;
+.history-detail-adder-input-wrapper > input[name='description'] {
+  width: 18.8rem;
 }
 
 .history-detail-adder-input-wrapper {
@@ -137,4 +138,27 @@
 .select-items div:hover,
 .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+.history-detail-adder-submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background-color: var(--primary-color-1);
+  border: 2px solid var(--primary-color-1);
+  border-radius: 1rem;
+}
+
+.history-detail-adder-submitBtn > img {
+  filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(4deg) brightness(101%) contrast(101%);
+}
+
+.history-detail-adder-submitBtn:disabled {
+  background: none;
+}
+
+.history-detail-adder-submitBtn:disabled > img {
+  filter: invert(65%) sepia(60%) saturate(519%) hue-rotate(129deg) brightness(89%) contrast(86%);
 }
