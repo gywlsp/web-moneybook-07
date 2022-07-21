@@ -73,6 +73,9 @@ p.year-view {
 }
 
 .view-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   top: -4rem;
   width: 100%;
