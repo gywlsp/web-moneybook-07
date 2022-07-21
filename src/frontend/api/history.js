@@ -2,9 +2,9 @@ import API from './index.js';
 import {getQueryString} from '../utils/api.js';
 
 const AccountHistoryAPI = {
-  getList: (filter, resCallback) => {
+  getList: filter => {
     const queryString = getQueryString(filter);
-    API.get(`/api/account-history${queryString}`).then(resCallback);
+    return API.get(`/api/account-history${queryString}`);
   },
 };
 
