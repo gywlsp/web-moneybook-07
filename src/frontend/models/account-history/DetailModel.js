@@ -1,5 +1,7 @@
 import Observer from '../index.js';
 import globalStore from '../../stores/global.js';
+import AccountHistoryAPI from '../../api/history.js';
+import {padZero} from '../../utils/date.js';
 
 export default class AccountHistoryDetailModel extends Observer {
   constructor() {
@@ -14,8 +16,11 @@ export default class AccountHistoryDetailModel extends Observer {
   }
 
   fetchHistory() {
-    const history = []; // fetch
+    const {year, month} = globalStore.get('globalState');
+    const {income, expenditure} = globalStore.get('detailState');
+    AccountHistoryAPI.getList({year, month: padZero(month), income, expenditure}, history => {
     this.data = {...this.data, history};
+    });
   }
 
   fetchCategories() {
