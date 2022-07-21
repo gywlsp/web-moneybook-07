@@ -1,4 +1,7 @@
 import AccountHistoryAPI from '../../../api/history.js';
+import {addDot} from '../../../utils/date.js';
+import {getNumString} from '../../../utils/string.js';
+
 import AccountHistoryDetailAdderItem from './Item.js';
 import AccountHistoryDetailAdderSubmitBtn from './SubmitBtn.js';
 
@@ -33,12 +36,13 @@ export default class AccountHistoryDetailAdder {
 
   handleEvent() {
     const $submitBtn = this.$target.querySelector('.history-detail-adder-submitBtn');
+    const $dateStringInput = this.$target.querySelector('input[name="dateString"]');
+    const $categorySelect = this.$target.querySelector('select[name="category"]');
+    const $descriptionInput = this.$target.querySelector('input[name="description"]');
+    const $paymentSelect = this.$target.querySelector('select[name="payment"]');
+    const $priceInput = this.$target.querySelector('input[name="price"]');
+
     this.$target.addEventListener('input', () => {
-      const $dateStringInput = this.$target.querySelector('input[name="dateString"]');
-      const $categorySelect = this.$target.querySelector('select[name="category"]');
-      const $descriptionInput = this.$target.querySelector('input[name="description"]');
-      const $paymentSelect = this.$target.querySelector('select[name="payment"]');
-      const $priceInput = this.$target.querySelector('input[name="price"]');
       if (
         $dateStringInput.value.length !== 8 ||
         !$categorySelect.value ||
@@ -50,6 +54,27 @@ export default class AccountHistoryDetailAdder {
         return;
       }
       $submitBtn.disabled = false;
+    });
+
+    this.$target.addEventListener('click', e => {
+      const $submitBtn = e.target.closest('.history-detail-adder-submitBtn');
+      if (!$submitBtn) return;
+
+      const dateString = addDot($dateStringInput.value);
+      const categoryId = +$categorySelect.value;
+      const description = $descriptionInput.value;
+      const paymentId = +$paymentSelect.value;
+      const price = +getNumString($priceInput.value);
+
+      this.formData = {
+        dateString,
+        categoryId,
+        description,
+        paymentId,
+        price,
+      };
+
+      this.submitForm();
     });
   }
 
