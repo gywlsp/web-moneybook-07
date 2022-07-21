@@ -32,6 +32,7 @@ const getHistoryResult = ({income, expenditure}, history) => {
   );
 
   const dates = [];
+  let totalDetailCnt = 0;
   result.dateMap.forEach((details, key) => {
     const filteredDetails = details.filter(({category}) => {
       if (category.type === 'income' && income === 'true') {
@@ -43,6 +44,7 @@ const getHistoryResult = ({income, expenditure}, history) => {
       return false;
     });
     if (filteredDetails.length === 0) return;
+    totalDetailCnt += filteredDetails.length;
     const [totalIncome, totalExpenditure] = filteredDetails.reduce(
       (acc, curr) => {
         const pos = curr.category.type === 'income' ? 0 : 1;
@@ -60,6 +62,7 @@ const getHistoryResult = ({income, expenditure}, history) => {
     dates.push(date);
   });
   result.dates = dates;
+  result.totalDetailCnt = totalDetailCnt;
   delete result.dateMap;
 
   return result;

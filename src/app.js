@@ -20,7 +20,6 @@ app.use(cookieParser());
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 if (process.env.NODE_ENV === 'development') {
-  // 웹팩 설정
   app.use('/', middleware(compiler, {}));
 }
 

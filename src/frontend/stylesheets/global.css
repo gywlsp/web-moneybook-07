@@ -1,12 +1,22 @@
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .global-header {
+  font-family: 'BMDOHYEON';
   display: flex;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
   background-color: var(--primary-color-1);
-  padding: 4rem 0;
+  padding: 4rem 0 6rem;
 }
 
 .home-button {
+  font-family: 'BMDOHYEON';
   font-size: 2.4rem;
   color: var(--off-white-color);
 }
@@ -29,6 +39,10 @@
   flex-direction: column;
   align-items: center;
   color: var(--off-white-color);
+}
+
+.year-month-wrapper > p {
+  font-family: 'BMDOHYEON';
 }
 
 p.month-view {
@@ -56,4 +70,14 @@ p.year-view {
 
 .view-tab.selected > img {
   filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+}
+
+.view-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: -4rem;
+  width: 100%;
+  max-width: 100.4rem;
 }

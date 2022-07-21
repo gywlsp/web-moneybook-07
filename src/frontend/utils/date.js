@@ -11,3 +11,14 @@ export const getNextMonth = ({year, month}) => {
   }
   return {year, month: month + 1};
 };
+
+export const padZero = num => num.toString().padStart(2, '0');
+
+export const getTodayDateString = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+  const result = `${year}${padZero(month)}${padZero(date)}`;
+  return result;
+};
