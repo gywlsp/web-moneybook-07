@@ -1,5 +1,5 @@
 const queryStatements = {
-  getListQuery: ({year, month}) => `
+  getListQuery: ({ year, month }) => `
     select ACCOUNT_HISTORY.id as id
      , ACCOUNT_HISTORY.dateString as dateString
      , ACCOUNT_HISTORY.categoryId as categoryId
@@ -17,6 +17,10 @@ const queryStatements = {
     where ACCOUNT_HISTORY.dateString like "${year}.${month}.__"
     order by ACCOUNT_HISTORY.dateString DESC;
     `,
+
+  createHistoryQuery: () => `insert into ACCOUNT_HISTORY (dateString, categoryId, description, paymentId, price) values (?, ?, ?, ?, ?);`,
+
+  updateHistoryQuery: () => `update ACCOUNT_HISTORY SET dateString=?, categoryId=?, description=?, paymentId=?, price=? WHERE id=?;`
 };
 
 module.exports = queryStatements;
