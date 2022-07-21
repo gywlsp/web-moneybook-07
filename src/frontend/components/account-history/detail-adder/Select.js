@@ -46,8 +46,10 @@ export default class AccountHistoryDetailAdderInput {
     const {name} = this.state;
     const {
       categories: {income, expenditure},
+      payments,
     } = this.detailModel.getData();
-    const optionData = [...income, ...expenditure].map(({id, title}) => ({value: id, title}));
+    const options = name === 'category' ? [...income, ...expenditure] : payments;
+    const optionData = options.map(({id, title}) => ({value: id, title}));
     this.$target.innerHTML = `
         <select id="${name}" name="${name}" class="history-detail-adder-select">
           ${optionData.map(({value, title}) => `<option value="${value}">${title}</option>`).join('')}
