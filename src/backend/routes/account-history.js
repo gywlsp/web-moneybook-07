@@ -3,7 +3,8 @@ const AccountHistoryController = require('../controllers/account-history.js');
 
 const router = express.Router();
 
-/* GET users listing. */
 router.get('/', AccountHistoryController.getList);
+router.post('/', AccountHistoryController.createHistory)
+router.put('/:id', AccountHistoryController.updateHistory)
 
 module.exports = router;
