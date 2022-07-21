@@ -19,7 +19,7 @@ export default class AccountHistoryDetailModel extends Observer {
     const {year, month} = globalStore.get('globalState');
     const {income, expenditure} = globalStore.get('detailState');
     AccountHistoryAPI.getList({year, month: padZero(month), income, expenditure}, history => {
-    this.data = {...this.data, history};
+      this.data = {...this.data, history};
     });
   }
 
@@ -88,7 +88,10 @@ export default class AccountHistoryDetailModel extends Observer {
   }
 
   fetchPayments() {
-    const payments = []; // fetch
+    const payments = [
+      {id: 1, title: '현금'},
+      {id: 2, title: '신용카드'},
+    ]; // fetch
     this.data = {...this.data, payments};
   }
 
