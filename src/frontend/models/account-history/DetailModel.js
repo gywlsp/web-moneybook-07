@@ -10,7 +10,7 @@ export default class AccountHistoryDetailModel extends Observer {
     globalStore.subscribe('globalState', this.mutateHistory.bind(this));
     globalStore.subscribe('detailState', this.mutateHistory.bind(this));
     this.data = {
-      history: {totalIncome: 0, totalExpenditure: 0, dates: []},
+      history: {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []},
       categories: {income: [], expenditure: []},
       payments: [],
     };
