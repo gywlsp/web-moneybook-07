@@ -20,7 +20,54 @@ const queryStatements = {
 
   createHistoryQuery: () => `insert into ACCOUNT_HISTORY (dateString, categoryId, description, paymentId, price) values (?, ?, ?, ?, ?);`,
 
-  updateHistoryQuery: () => `update ACCOUNT_HISTORY SET dateString=?, categoryId=?, description=?, paymentId=?, price=? WHERE id=?;`
-};
+  updateHistoryQuery: () => `update ACCOUNT_HISTORY SET dateString=?, categoryId=?, description=?, paymentId=?, price=? WHERE id=?;`,
+
+  getCategoriesQuery: ({ year, month }) => {
+    const whereClause = (year !== undefined && month !== undefined) ? `where dateString like '${year}.${month}.__'` : ''
+
+    return `select cate.type as type
+                 , cate.id as id
+                 , cate.title
+                 , case when cate.type = 'income' then ifnull(sum(h.price) * 100 / (select sum(price) 
+                                                                               from ACCOUNT_HISTORY h 	                                             
+                                                                              inner join ACCOUNT_HISTORY_CATEGORY c
+                                                                                 on h.categoryId = c.id
+                                                                                and c.type = 'income' 
+                                                                                ${whereClause}
+                                                                                   ), 0)
+                       else ifnull(sum(h.price) * 100 / (select sum(price) 
+                                                     from ACCOUNT_HISTORY h 	                                             
+                                                    inner join ACCOUNT_HISTORY_CATEGORY c
+                                                       on h.categoryId = c.id
+                                                      and c.type = 'expenditure' 
+                                                      ${whereClause}
+                                                        ), 0)
+                       end as percentage
+    , case when cate.type = 'income' then (select sum(price) 
+                                             from ACCOUNT_HISTORY h
+                                            inner join ACCOUNT_HISTORY_CATEGORY c
+                                               on h.categoryId = c.id
+                                              and c.type = 'income'
+                                               ${whereClause}
+                                          )
+          else (select sum(price) 
+                  from ACCOUNT_HISTORY h
+                  inner join ACCOUNT_HISTORY_CATEGORY c
+                    on h.categoryId = c.id
+                   and c.type = 'expenditure'
+                    ${whereClause}
+               )
+      end as total           
+ from ACCOUNT_HISTORY_CATEGORY as cate
+ left join ACCOUNT_HISTORY as h
+   on h.categoryId = cate.id
+ ${whereClause}
+group by cate.id 
+order by type desc, id
+`
+  },
+
+  getPaymentsQuery: () => `select id, title from PAYMENT`
+}
 
 module.exports = queryStatements;
