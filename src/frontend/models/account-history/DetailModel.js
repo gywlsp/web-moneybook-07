@@ -24,7 +24,66 @@ export default class AccountHistoryDetailModel extends Observer {
   }
 
   fetchCategories() {
-    const categories = []; // fetch
+    const categories = {
+      income: [
+        {
+          id: 1,
+          title: '생활',
+          percentage: 'number',
+          total: 'number',
+        },
+        {
+          id: 2,
+          title: '식비',
+          percentage: 'number',
+          total: 'number',
+        },
+        {
+          id: 3,
+          title: '쇼핑/뷰티',
+          percentage: 'number',
+          total: 'number',
+        },
+        {
+          id: 4,
+          title: '의료/건강',
+          percentage: 'number',
+          total: 'number',
+        },
+        {
+          id: 5,
+          title: '문화/여가',
+          percentage: 'number',
+          total: 'number',
+        },
+        {
+          id: 6,
+          title: '미분류',
+          percentage: 'number',
+          total: 'number',
+        },
+      ],
+      expenditure: [
+        {
+          id: 7,
+          title: '월급',
+          percentage: 'number',
+          total: 'number',
+        },
+        {
+          id: 8,
+          title: '용돈',
+          percentage: 'number',
+          total: 'number',
+        },
+        {
+          id: 9,
+          title: '기타 수입',
+          percentage: 'number',
+          total: 'number',
+        },
+      ],
+    }; // fetch
     this.data = {...this.data, categories};
   }
 
