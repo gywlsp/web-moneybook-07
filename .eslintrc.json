@@ -10,7 +10,9 @@
   },
   "rules": {
     "import/extensions": ["error", "always"],
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["src/app.js"]}]
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["src/app.js"]}],
+    "no-new": 0,
+    "no-shadow": 0
   },
   "ignorePatterns": ["src/frontend/public", "bin"]
 }
