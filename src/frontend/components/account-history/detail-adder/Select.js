@@ -1,4 +1,4 @@
-export default class AccountHistoryDetailAdderInput {
+export default class AccountHistoryDetailAdderSelect {
   constructor({$parent, model, state}) {
     this.$target = document.createElement('div');
     this.$target.classList.add('history-detail-adder-select-wrapper');
@@ -23,22 +23,33 @@ export default class AccountHistoryDetailAdderInput {
 
       const $selectItem = e.target.closest('.select-item');
       if ($selectItem) {
-        const {optionValue: selectedValue, optionTitle} = $selectItem.dataset;
+        const {optionValue: selectedValue} = $selectItem.dataset;
         const $select = this.$target.querySelector('.history-detail-adder-select');
         $select.value = selectedValue;
-
-        const $selectLabel = this.$target.querySelector('.select-selected');
-        $selectLabel.innerHTML = optionTitle;
-        $selectLabel.classList.toggle('select-arrow-active');
-        $selectLabel.style.color = '#1e2222';
-
-        $selectedItems.classList.add('select-hide');
-        [...this.$target.querySelectorAll('.select-item')].forEach($elem => {
-          const {optionValue} = $elem.dataset;
-          if (optionValue === selectedValue) $elem.classList.add('same-as-selected');
-          else $elem.classList.remove('same-as-selected');
+        const event = new Event('input', {
+          bubbles: true,
         });
+        $select.dispatchEvent(event);
       }
+    });
+
+    this.$target.addEventListener('input', e => {
+      const {value} = e.target;
+      const $selectLabel = this.$target.querySelector('.select-selected');
+      $selectLabel.classList.toggle('select-arrow-active');
+      $selectLabel.style.color = '#1e2222';
+
+      const $selectedItems = this.$target.querySelector('.select-items');
+      $selectedItems.classList.add('select-hide');
+      [...this.$target.querySelectorAll('.select-item')].forEach($elem => {
+        const {optionValue, optionTitle} = $elem.dataset;
+        if (optionValue === value) {
+          $elem.classList.add('same-as-selected');
+          $selectLabel.innerHTML = optionTitle;
+          return;
+        }
+        $elem.classList.remove('same-as-selected');
+      });
     });
   }
 
