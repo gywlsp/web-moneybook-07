@@ -280,3 +280,70 @@ button.select-item {
   text-align: right;
   font-weight: 500;
 }
+
+.confirm-modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.confirm-modal-overlay.hidden {
+  display: none;
+}
+
+.confirm-modal {
+  width: 40rem;
+  padding: 4rem;
+  background-color: var(--off-white-color);
+  border-radius: 1rem;
+}
+
+.confirm-modal-title {
+  font-size: 1.6rem;
+  color: var(--title-active-color);
+  margin-bottom: 2.4rem;
+}
+
+#confirm-modal-input {
+  width: 100%;
+  padding: 1rem;
+  background: var(--off-white-color);
+  border: 1px solid #CCD3D3;
+  border-radius: 1rem;
+  font-size: 1.6rem;
+  margin-bottom: 4rem;
+}
+
+#confirm-modal-input::placeholder {
+  color: var(--placeholder-color)
+}
+
+#confirm-modal-input:focus {
+  outline: none;
+  border-color: var(--primary-color-1)
+}
+
+.confirm-modal-btns-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.confirm-modal-btns-wrapper > button {
+  font-size: 1.6rem;
+  color: var(--label-color)
+}
+
+
+.confirm-modal-btns-wrapper > .delete-btn {
+  color: var(--danger-red-color)
+}
+.confirm-modal-btns-wrapper > .add-btn {
+  color: var(--primary-color-3)
+}
