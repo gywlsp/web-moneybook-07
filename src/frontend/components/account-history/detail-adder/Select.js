@@ -6,6 +6,7 @@ export default class AccountHistoryDetailAdderSelect {
 
     this.detailModel = model;
     this.state = state;
+    this.$target.classList.add(this.state.name);
 
     this.render();
     this.handleEvent();
@@ -17,7 +18,7 @@ export default class AccountHistoryDetailAdderSelect {
       const $selectedItems = this.$target.querySelector('.select-items');
       if ($selectLabel) {
         $selectLabel.classList.toggle('select-arrow-active');
-        $selectedItems.classList.toggle('select-hide');
+        $selectedItems.classList.toggle('hidden');
         return;
       }
 
@@ -40,7 +41,7 @@ export default class AccountHistoryDetailAdderSelect {
       $selectLabel.style.color = '#1e2222';
 
       const $selectedItems = this.$target.querySelector('.select-items');
-      $selectedItems.classList.add('select-hide');
+      $selectedItems.classList.add('hidden');
       [...this.$target.querySelectorAll('.select-item')].forEach($elem => {
         const {optionValue, optionTitle} = $elem.dataset;
         if (optionValue === value) {
@@ -59,18 +60,23 @@ export default class AccountHistoryDetailAdderSelect {
       categories: {income, expenditure},
       payments,
     } = this.detailModel.getData();
-    const options = name === 'category' ? [...income, ...expenditure] : payments;
-    const optionData = options.map(({id, title}) => ({value: id, title}));
+    const options =
+      name === 'category'
+        ? [...income.map(v => ({...v, type: 'income'})), ...expenditure.map(v => ({...v, type: 'expenditure'}))]
+        : payments;
+    const optionData = options.map(({id, title, type}) => ({value: id, title, type}));
     this.$target.innerHTML = `
         <select id="${name}" name="${name}" class="history-detail-adder-select">
           ${optionData.map(({value, title}) => `<option value="${value}">${title}</option>`).join('')}
         </select>
         <div class="select-selected">선택하세요</div>
-        <div class="select-items select-hide">
+        <div class="select-items hidden">
           ${optionData
             .map(
-              ({value, title}) =>
-                `<div class="select-item" data-option-value="${value}"  data-option-title="${title}">${title}</div>`,
+              ({value, title, type}) =>
+                `<div class="select-item ${type === 'income' ? 'hidden' : ''}" ${
+                  type ? `data-option-type="${type}"` : ''
+                } data-option-value="${value}"  data-option-title="${title}">${title}</div>`,
             )
             .join('')} 
         </div>

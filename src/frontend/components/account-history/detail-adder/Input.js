@@ -2,7 +2,6 @@ import {getTodayDateString} from '../../../utils/date.js';
 import {getNumString} from '../../../utils/string.js';
 
 import minusIcon from '../../../assets/minus.svg';
-import plusIcon from '../../../assets/plus.svg';
 
 export default class AccountHistoryDetailAdderInput {
   constructor({$parent, model, state}) {
@@ -29,16 +28,6 @@ export default class AccountHistoryDetailAdderInput {
         e.target.value = Number(getNumString(value)).toLocaleString();
       }
     });
-
-    this.$target.addEventListener('click', e => {
-      const $toggleBtn = e.target.closest('.plus-minus-toggleBtn');
-      if ($toggleBtn) {
-        const $toggleIcon = this.$target.querySelector('.plus-minus-toggleBtn > img');
-        const [newSrc, newAlt] = $toggleIcon.alt === 'minus-icon' ? [plusIcon, 'plus-icon'] : [minusIcon, 'minus-icon'];
-        $toggleIcon.src = newSrc;
-        $toggleIcon.alt = newAlt;
-      }
-    });
   }
 
   render() {
@@ -49,7 +38,7 @@ export default class AccountHistoryDetailAdderInput {
       name === 'price'
         ? [
             `
-        <button class="plus-minus-toggleBtn">
+        <button class="category-type-toggleBtn" data-category-type="expenditure">
             <img src="${minusIcon}" alt="minus-icon" />
         </button>`,
             '<p>원</p>',
