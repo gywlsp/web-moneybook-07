@@ -50,16 +50,16 @@ const AccountHistoryService = {
       const result = categories.reduce(
         (acc, curr) => {
           const {type, id, title, percentage, total} = curr;
-        acc[type].push({
-          id,
-          title,
-          percentage,
+          acc[type].push({
+            id,
+            title,
+            percentage,
             total,
           });
           return acc;
         },
         {
-        income: [],
+          income: [],
           expenditure: [],
         },
       );
@@ -82,6 +82,17 @@ const AccountHistoryService = {
       const selectQuery = `select * from PAYMENT where id = ${insertId}`;
       dbPool.query(selectQuery, (err, newPayment) => {
         resCallback(newPayment);
+      });
+    });
+  },
+
+  deletePayment(data, resCallback) {
+    const {id} = data;
+    const updateQuery = 'update ACCOUNT_HISTORY SET paymentId=null WHERE paymentId=?';
+    dbPool.query(updateQuery, [id], err => {
+      const sql = deletePaymentQuery();
+      dbPool.query(sql, [id], err => {
+        resCallback();
       });
     });
   },
