@@ -1,6 +1,7 @@
 import AccountHistoryAPI from '../../../api/history.js';
 import {addDot} from '../../../utils/date.js';
 import {getNumString} from '../../../utils/string.js';
+import {updateCategoryTypeToggleBtn} from '../../../utils/category.js';
 
 import AccountHistoryDetailAdderItem from './Item.js';
 import AccountHistoryDetailAdderSubmitBtn from './SubmitBtn.js';
@@ -57,6 +58,14 @@ export default class AccountHistoryDetailAdder {
     });
 
     this.$target.addEventListener('click', e => {
+      const $categoryTypeToggleBtn = e.target.closest('.category-type-toggleBtn');
+      if ($categoryTypeToggleBtn) {
+        const {categoryType} = $categoryTypeToggleBtn.dataset;
+        const newCategoryType = categoryType === 'expenditure' ? 'income' : 'expenditure';
+        updateCategoryTypeToggleBtn(newCategoryType);
+        return;
+      }
+
       const $submitBtn = e.target.closest('.history-detail-adder-submitBtn');
       if (!$submitBtn) return;
 
