@@ -18,7 +18,7 @@ const API = {
   get: path => fetcher(path, 'GET'),
   post: (path, body) => fetcher(path, 'POST', body),
   delete: path => fetcher(path, 'DELETE'),
-  patch: (path, body) => fetcher(path, 'PATCH', body),
+  put: (path, body) => fetcher(path, 'PUT', body),
 };
 
 export default API;

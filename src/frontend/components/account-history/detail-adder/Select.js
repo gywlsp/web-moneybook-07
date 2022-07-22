@@ -36,7 +36,7 @@ export default class AccountHistoryDetailAdderSelect {
     this.$target.addEventListener('input', e => {
       const {value} = e.target;
       const $selectLabel = this.$target.querySelector('.select-selected');
-      $selectLabel.classList.toggle('select-arrow-active');
+      $selectLabel.classList.remove('select-arrow-active');
       $selectLabel.style.color = '#1e2222';
 
       const $selectedItems = this.$target.querySelector('.select-items');
