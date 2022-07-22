@@ -115,14 +115,7 @@
   /* Elevation1 */
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-}
-
-.select-item:first-child {
-  border-radius: 10px 10px 0px 0px;
-}
-
-.select-item:last-child {
-  border-radius: 0px 0px 10px 10px;
+  overflow: hidden;
 }
 
 .select-item {
