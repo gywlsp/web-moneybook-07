@@ -1,5 +1,5 @@
 const queryStatements = {
-  getListQuery: ({ year, month }) => `
+  getListQuery: ({year, month}) => `
     select ACCOUNT_HISTORY.id as id
      , ACCOUNT_HISTORY.dateString as dateString
      , ACCOUNT_HISTORY.categoryId as categoryId
@@ -18,12 +18,14 @@ const queryStatements = {
     order by ACCOUNT_HISTORY.dateString DESC;
     `,
 
-  createHistoryQuery: () => `insert into ACCOUNT_HISTORY (dateString, categoryId, description, paymentId, price) values (?, ?, ?, ?, ?);`,
+  createHistoryQuery: () =>
+    `insert into ACCOUNT_HISTORY (dateString, categoryId, description, paymentId, price) values (?, ?, ?, ?, ?);`,
 
-  updateHistoryQuery: () => `update ACCOUNT_HISTORY SET dateString=?, categoryId=?, description=?, paymentId=?, price=? WHERE id=?;`,
+  updateHistoryQuery: () =>
+    `update ACCOUNT_HISTORY SET dateString=?, categoryId=?, description=?, paymentId=?, price=? WHERE id=?;`,
 
-  getCategoriesQuery: ({ year, month }) => {
-    const whereClause = (year !== undefined && month !== undefined) ? `where dateString like '${year}.${month}.__'` : ''
+  getCategoriesQuery: ({year, month}) => {
+    const whereClause = year !== undefined && month !== undefined ? `where dateString like '${year}.${month}.__'` : '';
 
     return `select cate.type as type
                  , cate.id as id
@@ -64,10 +66,11 @@ const queryStatements = {
  ${whereClause}
 group by cate.id 
 order by type desc, id
-`
+`;
   },
 
-  getPaymentsQuery: () => `select id, title from PAYMENT`
-}
+  getPaymentsQuery: () => `select id, title from PAYMENT`,
+
+  createPaymentQuery: () => `insert into PAYMENT (title) values (?);`,
 
 module.exports = queryStatements;
