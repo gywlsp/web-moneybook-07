@@ -1,3 +1,5 @@
+import closeIcon from '../../../assets/close.svg';
+
 export default class AccountHistoryDetailAdderSelect {
   constructor({$parent, model, state}) {
     this.$target = document.createElement('div');
@@ -76,7 +78,10 @@ export default class AccountHistoryDetailAdderSelect {
               ({value, title, type}) =>
                 `<div class="select-item ${type === 'income' ? 'hidden' : ''}" ${
                   type ? `data-option-type="${type}"` : ''
-                } data-option-value="${value}"  data-option-title="${title}">${title}</div>`,
+                } data-option-value="${value}"  data-option-title="${title}">
+                  ${title}
+                  ${name === 'payment' ? `<img class="option-delete-btn" src="${closeIcon}" alt="close-icon"/>` : ''}
+                </div>`,
             )
             .join('')} 
         </div>
