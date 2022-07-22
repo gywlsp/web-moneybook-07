@@ -24,7 +24,7 @@ export default class AccountHistoryDetailAdderSelect {
         return;
       }
 
-      const $selectItem = e.target.closest('.select-item');
+      const $selectItem = e.target.closest('div.select-item');
       if ($selectItem) {
         const {optionValue: selectedValue} = $selectItem.dataset;
         const $select = this.$target.querySelector('.history-detail-adder-select');
@@ -44,7 +44,7 @@ export default class AccountHistoryDetailAdderSelect {
 
       const $selectedItems = this.$target.querySelector('.select-items');
       $selectedItems.classList.add('hidden');
-      [...this.$target.querySelectorAll('.select-item')].forEach($elem => {
+      [...this.$target.querySelectorAll('div.select-item')].forEach($elem => {
         const {optionValue, optionTitle} = $elem.dataset;
         if (optionValue === value) {
           $elem.classList.add('same-as-selected');
@@ -83,7 +83,8 @@ export default class AccountHistoryDetailAdderSelect {
                   ${name === 'payment' ? `<img class="option-delete-btn" src="${closeIcon}" alt="close-icon"/>` : ''}
                 </div>`,
             )
-            .join('')} 
+            .join('')}
+            ${name === 'payment' ? `<button class="select-item">추가하기</button>` : ``}
         </div>
     `;
   }

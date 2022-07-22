@@ -14,7 +14,9 @@ export const updateCategoryTypeToggleBtn = categoryType => {
   $toggleBtn.dataset.categoryType = categoryType;
   updateCategoryTypeToggleBtnIcon($toggleBtn, categoryType);
 
-  const categoryOptions = [...document.querySelectorAll('.history-detail-adder-select-wrapper.category .select-item')];
+  const categoryOptions = [
+    ...document.querySelectorAll('.history-detail-adder-select-wrapper.category div.select-item'),
+  ];
   categoryOptions.forEach($option => {
     $option.classList.toggle('hidden', $option.dataset.optionType !== categoryType);
   });
