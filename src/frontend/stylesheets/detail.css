@@ -119,8 +119,17 @@
 }
 
 .select-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 1.2rem 2rem;
   cursor: pointer;
+}
+
+button.select-item {
+  width: 100%;
+  font-size: 1.6rem;
+  color: var(--title-active-color);
 }
 
 .select-item:not(:last-child) {
@@ -132,7 +141,7 @@
   display: none;
 }
 
-.select-items div:hover,
+.select-item:hover,
 .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
 }
