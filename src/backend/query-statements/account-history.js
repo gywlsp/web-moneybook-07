@@ -73,4 +73,7 @@ order by type desc, id
 
   createPaymentQuery: () => `insert into PAYMENT (title) values (?);`,
 
+  deletePaymentQuery: () => `delete from PAYMENT where id = ?;`,
+};
+
 module.exports = queryStatements;
