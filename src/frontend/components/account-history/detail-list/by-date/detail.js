@@ -1,4 +1,5 @@
 import {CATEGORY_COLORS} from '../../../../constants/category.js';
+import {updateCategoryTypeToggleBtn} from '../../../../utils/category.js';
 import {getNumString} from '../../../../utils/string.js';
 
 export default class AccountHistoryDetailListByDateDetail {
@@ -30,6 +31,8 @@ export default class AccountHistoryDetailListByDateDetail {
       $descriptionInput.value = description;
       $paymentSelect.value = payment.id;
       $priceInput.value = price.toLocaleString();
+
+      updateCategoryTypeToggleBtn(category.type);
 
       const event = new Event('input', {
         bubbles: true,
