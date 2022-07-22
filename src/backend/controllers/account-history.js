@@ -53,6 +53,13 @@ const AccountHistoryController = {
       res.status(200).send(newPayment);
     });
   },
+
+  deletePayment(req, res) {
+    const {id} = req.params;
+    AccountHistoryService.deletePayment({id}, () => {
+      res.status(200).send({});
+    });
+  },
 };
 
 module.exports = AccountHistoryController;
