@@ -8,3 +8,14 @@ export const updateCategoryTypeToggleBtnIcon = ($toggleBtn, categoryType) => {
   $toggleIcon.src = newSrc;
   $toggleIcon.alt = newAlt;
 };
+
+export const updateCategoryTypeToggleBtn = categoryType => {
+  const $toggleBtn = document.querySelector('.category-type-toggleBtn');
+  $toggleBtn.dataset.categoryType = categoryType;
+  updateCategoryTypeToggleBtnIcon($toggleBtn, categoryType);
+
+  const categoryOptions = [...document.querySelectorAll('.history-detail-adder-select-wrapper.category .select-item')];
+  categoryOptions.forEach($option => {
+    $option.classList.toggle('hidden', $option.dataset.optionType !== categoryType);
+  });
+};
