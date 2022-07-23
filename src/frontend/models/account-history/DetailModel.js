@@ -1,17 +1,17 @@
 /* eslint-disable class-methods-use-this */
 import Observer from '../index.js';
-import globalStore from '../../stores/global.js';
+import GlobalStore from '../../stores/global.js';
 import AccountHistoryAPI from '../../api/history.js';
-import { padZero } from '../../utils/date.js';
+import {padZero} from '../../utils/date.js';
 
 export default class AccountHistoryDetailModel extends Observer {
   constructor() {
     super();
-    globalStore.subscribe('globalState', this.mutateHistory.bind(this));
-    globalStore.subscribe('detailState', this.mutateHistory.bind(this));
+    GlobalStore.subscribe('globalState', this.mutateHistory.bind(this));
+    GlobalStore.subscribe('detailState', this.mutateHistory.bind(this));
     this.data = {
-      history: { totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: [] },
-      categories: { income: [], expenditure: [] },
+      history: {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []},
+      categories: {income: [], expenditure: []},
       payments: [],
     };
     this.setData();
@@ -22,9 +22,9 @@ export default class AccountHistoryDetailModel extends Observer {
   }
 
   fetchHistory() {
-    const { year, month } = globalStore.get('globalState');
-    const { income, expenditure } = globalStore.get('detailState');
-    return AccountHistoryAPI.getList({ year, month: padZero(month), income, expenditure });
+    const {year, month} = GlobalStore.get('globalState');
+    const {income, expenditure} = GlobalStore.get('detailState');
+    return AccountHistoryAPI.getList({year, month: padZero(month), income, expenditure});
   }
 
   fetchCategories() {
@@ -38,22 +38,21 @@ export default class AccountHistoryDetailModel extends Observer {
   setData() {
     Promise.all([this.fetchHistory(), this.fetchCategories(), this.fetchPayments()]).then(values => {
       const [history, categories, payments] = values;
-      this.data = { history, categories, payments };
+      this.data = {history, categories, payments};
       this.notify();
     });
   }
 
-  mutateHistory() {
-    this.fetchHistory().then(history => {
-      this.data = { ...this.data, history };
-      this.notify();
-    });
+  async mutateHistory() {
+    const history = await this.fetchHistory();
+    this.data = {...this.data, history};
+    this.notify();
   }
 
   mutatePayment() {
     Promise.all([this.fetchHistory(), this.fetchPayments()]).then(values => {
       const [history, payments] = values;
-      this.data = { ...this.data, history, payments };
+      this.data = {...this.data, history, payments};
       this.notify();
     });
   }

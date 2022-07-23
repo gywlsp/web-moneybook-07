@@ -1,4 +1,4 @@
-import globalStore from '../../../../stores/global.js';
+import GlobalStore from '../../../../stores/global.js';
 
 import FilterItem from './FilterItem.js';
 
@@ -20,7 +20,7 @@ export default class AccountHistoryDetailListHeader {
     this.$target.innerHTML = `
         <p class="history-detail-list-total-cnt">전체 내역 ${totalDetailCnt}건</p>
     `;
-    const {income, expenditure} = globalStore.get('detailState');
+    const {income, expenditure} = GlobalStore.get('detailState');
     new FilterItem({
       $parent: this.$target,
       model: this.detailModel,
