@@ -1,3 +1,5 @@
+import '../../stylesheets/detail.css';
+
 import AccountHistoryDetailAdder from '../../components/account-history/detail-adder/index.js';
 import AccountHistoryDetailList from '../../components/account-history/detail-list/index.js';
 

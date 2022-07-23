@@ -1,3 +1,6 @@
+import './stylesheets/style.css';
+import './stylesheets/global.css';
+
 import Router from './Router.js';
 import AccountHistoryDetailModel from './models/account-history/DetailModel.js';
 import AccountHistoryCalendarModel from './models/account-history/CalendarModel.js';
