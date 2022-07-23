@@ -1,4 +1,5 @@
-import globalStore from '../stores/global.js';
+import Router from '../Router.js';
+import GlobalStore from '../stores/global.js';
 
 import detailIcon from '../assets/file-text.svg';
 import calendarIcon from '../assets/calendar.svg';
@@ -7,7 +8,7 @@ import chevronLeftIcon from '../assets/chevron-left.svg';
 import chevronRightIcon from '../assets/chevron-right.svg';
 import {getNextMonth, getPrevMonth} from '../utils/date.js';
 
-const tabData = [
+const TAB_DATA = [
   {
     name: 'detail',
     icon: detailIcon,
@@ -22,7 +23,7 @@ const tabData = [
   },
 ];
 
-const routes = {
+const ROUTES = {
   detail: '/',
   calendar: '/calendar',
   statistics: '/statistics',
@@ -33,8 +34,8 @@ export default class GlobalHeader {
     this.$target = document.createElement('header');
     this.$target.classList.add('global-header');
     document.querySelector('#app').appendChild(this.$target);
-    globalStore.subscribe('selectedTab', this.render.bind(this));
-    globalStore.subscribe('globalState', this.render.bind(this));
+    Router.subscribe('pathname', this.render.bind(this));
+    GlobalStore.subscribe('globalState', this.render.bind(this));
     this.render();
     this.handleEvent();
   }
@@ -43,7 +44,7 @@ export default class GlobalHeader {
     this.$target.addEventListener('click', e => {
       const $homeButton = e.target.closest('.home-button');
       if ($homeButton) {
-        globalStore.set('selectedTab', 'detail');
+        Router.set('pathname', '/detail');
         window.history.pushState({}, null, '/');
         return;
       }
@@ -51,24 +52,24 @@ export default class GlobalHeader {
       const $monthControlButton = e.target.closest('.month-controller > button');
       if ($monthControlButton) {
         const getNewMonth = $monthControlButton.classList.contains('prev-month-button') ? getPrevMonth : getNextMonth;
-        const {year, month} = globalStore.get('globalState');
+        const {year, month} = GlobalStore.get('globalState');
         const {year: newYear, month: newMonth} = getNewMonth({year, month});
-        globalStore.set('globalState', {year: newYear, month: newMonth});
+        GlobalStore.set('globalState', {year: newYear, month: newMonth});
         return;
       }
 
       const $viewTab = e.target.closest('.view-tab');
       if ($viewTab) {
         const {name} = $viewTab.dataset;
-        globalStore.set('selectedTab', name);
-        window.history.pushState({}, null, routes[name]);
+        Router.set('pathname', `/${name}`);
+        window.history.pushState({}, null, ROUTES[name]);
       }
     });
   }
 
   render() {
-    const selectedTab = globalStore.get('selectedTab');
-    const {year, month} = globalStore.get('globalState');
+    const selectedTab = Router.get('pathname').slice(1);
+    const {year, month} = GlobalStore.get('globalState');
     this.$target.innerHTML = `
     <button class="home-button">우아한 가계부 🧚🏻‍♀️</button>
     <div class="month-controller">
@@ -84,13 +85,11 @@ export default class GlobalHeader {
         </button>
     </div>
     <ul class="view-tabs-wrapper">
-        ${tabData
-          .map(
-            ({name, icon}) => `<li data-name="${name}" class="view-tab ${selectedTab === name ? 'selected' : ''}">
+        ${TAB_DATA.map(
+          ({name, icon}) => `<li data-name="${name}" class="view-tab ${selectedTab === name ? 'selected' : ''}">
                 <img src="${icon}" alt="${name}-icon"/>
             </li>`,
-          )
-          .join('')}
+        ).join('')}
     </ul> 
     `;
   }
