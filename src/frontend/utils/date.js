@@ -16,11 +16,13 @@ export const padZero = num => num.toString().padStart(2, '0');
 
 export const addDot = dateString => `${dateString.slice(0, 4)}.${dateString.slice(4, 6)}.${dateString.slice(6, 8)}`;
 
-export const getTodayDateString = () => {
+export const getTodayDateString = (option = {withDot: true}) => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const date = today.getDate();
-  const result = `${year}${padZero(month)}${padZero(date)}`;
+  const result = option.withDot
+    ? `${year}.${padZero(month)}.${padZero(date)}`
+    : `${year}${padZero(month)}${padZero(date)}`;
   return result;
 };
