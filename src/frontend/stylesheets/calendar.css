@@ -68,3 +68,24 @@
   margin-left: auto;
   color: var(--label-color);
 }
+
+.history-calendar-footer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1.6rem;
+  margin-top: 0.8rem;
+}
+
+.history-calendar-footer > p {
+  font-size: 1.4rem;
+  color: #888;
+}
+
+.history-calendar-footer > p:not(:last-child) {
+  margin-right: 0.8rem;
+}
+
+.history-calendar-footer > p:nth-child(4) {
+  margin-right: auto;
+}
