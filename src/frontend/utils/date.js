@@ -26,3 +26,9 @@ export const getTodayDateString = (option = {withDot: true}) => {
     : `${year}${padZero(month)}${padZero(date)}`;
   return result;
 };
+
+export const getDateString = ({year, month, date, withDot = true}) => {
+  const result = withDot ? `${year}.${padZero(month)}.${padZero(date)}` : `${year}${padZero(month)}${padZero(date)}`;
+  return result;
+};
+
