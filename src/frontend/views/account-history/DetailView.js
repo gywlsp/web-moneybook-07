@@ -3,12 +3,11 @@ import AccountHistoryDetailAdder from '../../components/account-history/detail-a
 import AccountHistoryDetailList from '../../components/account-history/detail-list/index.js';
 
 export default class AccountHistoryDetailView {
-  constructor({model}) {
+  constructor({$parent, model}) {
     this.$target = document.createElement('div');
     this.$target.classList.add('view-wrapper');
-    document.querySelector('#app').appendChild(this.$target);
+    $parent.appendChild(this.$target);
 
-    globalStore.subscribe('selectedTab', this.render.bind(this));
     this.detailModel = model;
     this.detailModel.subscribe(this.render.bind(this));
 
