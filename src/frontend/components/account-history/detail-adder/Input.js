@@ -32,7 +32,7 @@ export default class AccountHistoryDetailAdderInput {
 
   render() {
     const {name} = this.state;
-    const defaultValue = name === 'dateString' ? getTodayDateString() : '';
+    const defaultValue = name === 'dateString' ? getTodayDateString({withDot: false}) : '';
     const inputMaxLen = name === 'dateString' ? 'maxlength="8"' : '';
     const [toggleBtn, priceUnit] =
       name === 'price'

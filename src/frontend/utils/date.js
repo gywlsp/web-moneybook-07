@@ -16,11 +16,35 @@ export const padZero = num => num.toString().padStart(2, '0');
 
 export const addDot = dateString => `${dateString.slice(0, 4)}.${dateString.slice(4, 6)}.${dateString.slice(6, 8)}`;
 
-export const getTodayDateString = () => {
+export const getTodayDateString = (option = {withDot: true}) => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const date = today.getDate();
-  const result = `${year}${padZero(month)}${padZero(date)}`;
+  const result = option.withDot
+    ? `${year}.${padZero(month)}.${padZero(date)}`
+    : `${year}${padZero(month)}${padZero(date)}`;
   return result;
+};
+
+export const getDateString = ({year, month, date, withDot = true}) => {
+  const result = withDot ? `${year}.${padZero(month)}.${padZero(date)}` : `${year}${padZero(month)}${padZero(date)}`;
+  return result;
+};
+
+export const getDateCnt = month => {
+  switch (month) {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      return 31;
+    case 2:
+      return 28;
+    default:
+      return 30;
+  }
 };

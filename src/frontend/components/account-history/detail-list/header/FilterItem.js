@@ -1,4 +1,4 @@
-import globalStore from '../../../../stores/global.js';
+import GlobalStore from '../../../../stores/global.js';
 
 import checkIcon from '../../../../assets/check.svg';
 
@@ -17,8 +17,8 @@ export default class AccountHistoryDetailListHeaderFilterItem {
   handleEvent() {
     this.$target.addEventListener('click', () => {
       const {name, checked} = this.state;
-      const detailState = globalStore.get('detailState');
-      globalStore.set('detailState', {...detailState, [name]: !checked});
+      const detailState = GlobalStore.get('detailState');
+      GlobalStore.set('detailState', {...detailState, [name]: !checked});
     });
   }
 

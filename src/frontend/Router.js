@@ -1,7 +1,12 @@
-const getGlobalStore = () => {
+const getRouter = () => {
+  const getPathname = () => {
+    const {pathname} = window.location;
+    if (pathname === '/calendar' || pathname === '/statistics') return pathname;
+    return '/';
+  };
   const state = {};
 
-  const globalStore = {
+  const router = {
     init(key, defaultValue) {
       if (key in state) throw Error('이미 존재하는 key값 입니다.');
       state[key] = {
@@ -27,22 +32,15 @@ const getGlobalStore = () => {
     },
   };
 
-  const currentDate = new Date();
-  globalStore.init('globalState', {
-    year: currentDate.getFullYear(),
-    month: currentDate.getMonth() + 1,
-  });
-  globalStore.init('detailState', {
-    income: true,
-    expenditure: true,
-  });
-  globalStore.init('statisticsState', {
-    categoryId: null,
+  router.init('pathname', getPathname());
+
+  window.addEventListener('popstate', () => {
+    router.set('pathname', getPathname());
   });
 
-  return globalStore;
+  return router;
 };
 
-const GlobalStore = getGlobalStore();
+const Router = getRouter();
 
-export default GlobalStore;
+export default Router;
