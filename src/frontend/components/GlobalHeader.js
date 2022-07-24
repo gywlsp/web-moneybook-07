@@ -11,23 +11,20 @@ import {getNextMonth, getPrevMonth} from '../utils/date.js';
 const TAB_DATA = [
   {
     name: 'detail',
+    pathname: '/',
     icon: detailIcon,
   },
   {
     name: 'calendar',
+    pathname: '/calendar',
     icon: calendarIcon,
   },
   {
     name: 'statistics',
+    pathname: '/statistics',
     icon: chartIcon,
   },
 ];
-
-const ROUTES = {
-  detail: '/',
-  calendar: '/calendar',
-  statistics: '/statistics',
-};
 
 export default class GlobalHeader {
   constructor() {
@@ -44,7 +41,7 @@ export default class GlobalHeader {
     this.$target.addEventListener('click', e => {
       const $homeButton = e.target.closest('.home-button');
       if ($homeButton) {
-        Router.set('pathname', '/detail');
+        Router.set('pathname', '/');
         window.history.pushState({}, null, '/');
         return;
       }
@@ -60,15 +57,15 @@ export default class GlobalHeader {
 
       const $viewTab = e.target.closest('.view-tab');
       if ($viewTab) {
-        const {name} = $viewTab.dataset;
-        Router.set('pathname', `/${name}`);
-        window.history.pushState({}, null, ROUTES[name]);
+        const {pathname} = $viewTab.dataset;
+        Router.set('pathname', pathname);
+        window.history.pushState({}, null, pathname);
       }
     });
   }
 
   render() {
-    const selectedTab = Router.get('pathname').slice(1);
+    const currPathname = Router.get('pathname');
     const {year, month} = GlobalStore.get('globalState');
     this.$target.innerHTML = `
     <button class="home-button">우아한 가계부 🧚🏻‍♀️</button>
@@ -86,7 +83,9 @@ export default class GlobalHeader {
     </div>
     <ul class="view-tabs-wrapper">
         ${TAB_DATA.map(
-          ({name, icon}) => `<li data-name="${name}" class="view-tab ${selectedTab === name ? 'selected' : ''}">
+          ({name, pathname, icon}) => `<li data-pathname="${pathname}" class="view-tab ${
+            pathname === currPathname ? 'selected' : ''
+          }">
                 <img src="${icon}" alt="${name}-icon"/>
             </li>`,
         ).join('')}

@@ -10,7 +10,7 @@ import AccountHistoryDetailView from './views/account-history/DetailView.js';
 import AccountHistoryCalendarView from './views/account-history/CalendarView.js';
 
 const TAB_DATA = {
-  '/detail': {
+  '/': {
     Model: AccountHistoryDetailModel,
     View: AccountHistoryDetailView,
   },
