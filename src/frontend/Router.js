@@ -1,7 +1,7 @@
 const getRouter = () => {
   const getPathname = () => {
     const {pathname} = window.location;
-    if (pathname === '/calendar' || pathname === 'statistics') return pathname;
+    if (pathname === '/calendar' || pathname === '/statistics') return pathname;
     return '/detail';
   };
   const state = {};
