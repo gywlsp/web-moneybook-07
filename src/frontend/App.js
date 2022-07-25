@@ -4,10 +4,12 @@ import './stylesheets/global.css';
 import Router from './Router.js';
 import AccountHistoryDetailModel from './models/account-history/DetailModel.js';
 import AccountHistoryCalendarModel from './models/account-history/CalendarModel.js';
+import AccountHistoryStatisticsModel from './models/account-history/StatisticsModel.js';
 
 import GlobalHeader from './components/GlobalHeader.js';
 import AccountHistoryDetailView from './views/account-history/DetailView.js';
 import AccountHistoryCalendarView from './views/account-history/CalendarView.js';
+import AccountHistoryStatisticsView from './views/account-history/StatisticsView.js';
 
 const TAB_DATA = {
   '/': {
@@ -18,10 +20,14 @@ const TAB_DATA = {
     Model: AccountHistoryCalendarModel,
     View: AccountHistoryCalendarView,
   },
+  '/statistics': {
+    Model: AccountHistoryStatisticsModel,
+    View: AccountHistoryStatisticsView,
+  },
 };
 
 export default class App {
-  constructor({$parent}) {
+  constructor({ $parent }) {
     this.$target = document.createElement('div');
     this.$target.id = 'app';
     $parent.appendChild(this.$target);
@@ -31,7 +37,7 @@ export default class App {
   }
 
   render() {
-    new GlobalHeader({$parent: this.$target});
+    new GlobalHeader({ $parent: this.$target });
     this.renderView();
   }
 
@@ -39,11 +45,10 @@ export default class App {
     this.$view?.remove();
 
     const pathname = Router.get('pathname');
-    if (pathname === '/statistics') return; // 나중에 statistics 추가하면 제거
-    const {Model, View} = TAB_DATA[pathname];
+    const { Model, View } = TAB_DATA[pathname];
 
     const model = new Model();
-    const view = new View({$parent: this.$target, model});
+    const view = new View({ $parent: this.$target, model });
 
     this.$view = view.$target;
   }
