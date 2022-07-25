@@ -10,6 +10,10 @@
     border-radius: 10px;
 }
 
+.history-statistics-detail-panel {
+  width: 100%;
+}
+
 .donut-chart-canvas {
     margin-left: 4.8rem;
 }
