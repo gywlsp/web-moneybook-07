@@ -4,14 +4,14 @@ export default class AccountHistoryCalendarFooter {
     this.$target.classList.add('history-calendar-footer');
     $parent.appendChild(this.$target);
 
-    this.calendarModel = model;
+    this.model = model;
     this.render();
   }
 
   render() {
     const {
       history: {totalIncome, totalExpenditure},
-    } = this.calendarModel.getData();
+    } = this.model.getData();
     const total = totalIncome - totalExpenditure;
     this.$target.innerHTML = `
         <p>총 수입</p>
