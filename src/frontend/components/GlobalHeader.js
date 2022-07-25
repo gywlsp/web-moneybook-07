@@ -27,10 +27,10 @@ const TAB_DATA = [
 ];
 
 export default class GlobalHeader {
-  constructor() {
+  constructor({$parent}) {
     this.$target = document.createElement('header');
     this.$target.classList.add('global-header');
-    document.querySelector('#app').appendChild(this.$target);
+    $parent.appendChild(this.$target);
     Router.subscribe('pathname', this.render.bind(this));
     GlobalStore.subscribe('globalState', this.render.bind(this));
     this.render();

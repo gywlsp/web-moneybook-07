@@ -22,17 +22,16 @@ const TAB_DATA = {
 
 export default class App {
   constructor({$parent}) {
-    const $app = document.createElement('div');
-    $app.id = 'app';
-    this.$target = $app;
-    $parent.appendChild($app);
+    this.$target = document.createElement('div');
+    this.$target.id = 'app';
+    $parent.appendChild(this.$target);
 
     Router.subscribe('pathname', this.renderView.bind(this));
     this.render();
   }
 
   render() {
-    new GlobalHeader();
+    new GlobalHeader({$parent: this.$target});
     this.renderView();
   }
 
