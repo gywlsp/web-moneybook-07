@@ -9,15 +9,15 @@ export default class AccountHistoryDetailView {
     this.$target.classList.add('view-wrapper');
     $parent.appendChild(this.$target);
 
-    this.detailModel = model;
-    this.detailModel.subscribe(this.render.bind(this));
+    this.model = model;
+    this.model.subscribe(this.render.bind(this));
 
     this.render();
   }
 
   render() {
     this.$target.innerHTML = '';
-    new AccountHistoryDetailAdder({$parent: this.$target, model: this.detailModel});
-    new AccountHistoryDetailList({$parent: this.$target, model: this.detailModel});
+    new AccountHistoryDetailAdder({$parent: this.$target, model: this.model});
+    new AccountHistoryDetailList({$parent: this.$target, model: this.model});
   }
 }

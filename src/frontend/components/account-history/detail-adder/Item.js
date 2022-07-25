@@ -7,7 +7,7 @@ export default class AccountHistoryDetailAdderItem {
     this.$target.classList.add('history-detail-adder-item');
     $parent.appendChild(this.$target);
 
-    this.detailModel = model;
+    this.model = model;
     this.state = state;
 
     this.render();
@@ -20,6 +20,6 @@ export default class AccountHistoryDetailAdderItem {
     `;
     const DetailAdderComponent =
       itemType === 'input' ? AccountHistoryDetailAdderInput : AccountHistoryDetailAdderSelect;
-    new DetailAdderComponent({$parent: this.$target, model: this.detailModel, state: {name}});
+    new DetailAdderComponent({$parent: this.$target, model: this.model, state: {name}});
   }
 }

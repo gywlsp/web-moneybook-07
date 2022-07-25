@@ -8,7 +8,7 @@ export default class AccountHistoryDetailListByDateDetail {
     this.$target.classList.add('history-detail-list-by-date-detail');
 
     $parent.appendChild(this.$target);
-    this.detailModel = model;
+    this.model = model;
     this.state = state;
 
     this.render();

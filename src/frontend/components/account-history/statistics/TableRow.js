@@ -7,7 +7,7 @@ export default class AccountHistoryStatisticsTableRow {
     this.$target.classList.add('table-row');
     $parent.appendChild(this.$target);
 
-    this.detailModel = model;
+    this.model = model;
     this.state = state;
     const {id} = this.state;
     this.$target.dataset.id = id;

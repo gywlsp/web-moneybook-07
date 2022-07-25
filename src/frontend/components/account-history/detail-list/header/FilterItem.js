@@ -8,7 +8,7 @@ export default class AccountHistoryDetailListHeaderFilterItem {
     this.$target.classList.add('history-detail-list-filter-item');
     $parent.appendChild(this.$target);
 
-    this.detailModel = model;
+    this.model = model;
     this.state = state;
     this.render();
     this.handleEvent();

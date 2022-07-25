@@ -7,18 +7,18 @@ export default class AccountHistoryDetailList {
     this.$target.classList.add('history-detail-list-wrapper');
 
     $parent.appendChild(this.$target);
-    this.detailModel = model;
+    this.model = model;
 
     this.render();
   }
 
   render() {
-    new AccountHistoryDetailListHeader({$parent: this.$target, model: this.detailModel});
+    new AccountHistoryDetailListHeader({$parent: this.$target, model: this.model});
     const {
       history: {dates},
-    } = this.detailModel.getData();
+    } = this.model.getData();
     dates.forEach(date => {
-      new AccountHistoryDetailListByDate({$parent: this.$target, model: this.detailModel, state: {date}});
+      new AccountHistoryDetailListByDate({$parent: this.$target, model: this.model, state: {date}});
     });
   }
 }

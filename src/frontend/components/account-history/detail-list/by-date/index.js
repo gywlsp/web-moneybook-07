@@ -7,7 +7,7 @@ export default class AccountHistoryDetailListByDate {
     this.$target.classList.add('history-detail-list-by-date');
 
     $parent.appendChild(this.$target);
-    this.detailModel = model;
+    this.model = model;
     this.state = state;
 
     this.render();
@@ -17,13 +17,13 @@ export default class AccountHistoryDetailListByDate {
     const {dateString, totalIncome, totalExpenditure, details} = this.state.date;
     new AccountHistoryDetailListByDateHeader({
       $parent: this.$target,
-      model: this.detailModel,
+      model: this.model,
       state: {dateString, totalIncome, totalExpenditure},
     });
     details.forEach(detail => {
       new AccountHistoryDetailListByDateDetail({
         $parent: this.$target,
-        model: this.detailModel,
+        model: this.model,
         state: {dateString, ...detail},
       });
     });

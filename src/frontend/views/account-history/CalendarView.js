@@ -10,8 +10,8 @@ export default class AccountHistoryCalendarView {
     this.$target.classList.add('view-wrapper');
     $parent.appendChild(this.$target);
 
-    this.detailModel = model;
-    this.detailModel.subscribe(this.render.bind(this));
+    this.model = model;
+    this.model.subscribe(this.render.bind(this));
 
     this.render();
   }
@@ -19,7 +19,7 @@ export default class AccountHistoryCalendarView {
   render() {
     this.$target.innerHTML = '';
     new AccountHistoryCalendarHeader({$parent: this.$target});
-    new AccountHistoryCalendarContent({$parent: this.$target, model: this.detailModel});
-    new AccountHistoryCalendarFooter({$parent: this.$target, model: this.detailModel});
+    new AccountHistoryCalendarContent({$parent: this.$target, model: this.model});
+    new AccountHistoryCalendarFooter({$parent: this.$target, model: this.model});
   }
 }
