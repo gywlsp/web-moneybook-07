@@ -1,6 +1,9 @@
 import AccountHistoryDetailListByDate from './by-date/index.js';
 import AccountHistoryDetailListHeader from './header/index.js';
 
+import {updateCategoryTypeToggleBtn} from '../../../utils/category.js';
+import {getNumString} from '../../../utils/string.js';
+
 export default class AccountHistoryDetailList {
   constructor({$parent, model}) {
     this.$target = document.createElement('div');
@@ -10,6 +13,51 @@ export default class AccountHistoryDetailList {
     this.model = model;
 
     this.render();
+    this.handleEvent();
+  }
+
+  handleEvent() {
+    const $detailAdder = document.querySelector('.history-detail-adder');
+    const $dateStringInput = $detailAdder.querySelector('input[name="dateString"]');
+    const $categorySelect = $detailAdder.querySelector('select[name="category"]');
+    const $descriptionInput = $detailAdder.querySelector('input[name="description"]');
+    const $paymentSelect = $detailAdder.querySelector('select[name="payment"]');
+    const $priceInput = $detailAdder.querySelector('input[name="price"]');
+    const {
+      history: {dates},
+    } = this.model.getData();
+
+    this.$target.addEventListener('click', e => {
+      const $detailRow = e.target.closest('.history-detail-list-by-date-detail');
+      if (!$detailRow) return;
+      const {id} = $detailRow.dataset;
+      const detailId = +id;
+      let detailIndex = -1;
+      const dateIndex = dates.findIndex(({details}) => {
+        const dIndex = details.findIndex(v => v.id === detailId);
+        if (dIndex === -1) return false;
+        detailIndex = dIndex;
+        return true;
+      });
+
+      const {dateString, details} = dates[dateIndex];
+      const detail = details[detailIndex];
+      const {category, description, payment, price} = detail;
+      $detailAdder.dataset.id = detailId;
+      $dateStringInput.value = getNumString(dateString);
+      $categorySelect.value = category.id;
+      $descriptionInput.value = description;
+      $paymentSelect.value = payment.id;
+      $priceInput.value = price.toLocaleString();
+
+      updateCategoryTypeToggleBtn(category.type);
+
+      const event = new Event('input', {
+        bubbles: true,
+      });
+      $categorySelect.dispatchEvent(event);
+      $paymentSelect.dispatchEvent(event);
+    });
   }
 
   render() {
