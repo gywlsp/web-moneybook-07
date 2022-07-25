@@ -1,5 +1,5 @@
 const queryStatements = {
-  getListQuery: ({year, month}) => `
+  getListQuery: ({year, month, categoryId}) => `
     select ACCOUNT_HISTORY.id as id
      , ACCOUNT_HISTORY.dateString as dateString
      , ACCOUNT_HISTORY.categoryId as categoryId
@@ -15,6 +15,7 @@ const queryStatements = {
     join ACCOUNT_HISTORY_CATEGORY 
     on ACCOUNT_HISTORY.categoryId = ACCOUNT_HISTORY_CATEGORY.id 
     where ACCOUNT_HISTORY.dateString like "${year}.${month}.__"
+    ${categoryId === undefined ? '' : `and ACCOUNT_HISTORY.categoryId = ${categoryId}`}
     order by ACCOUNT_HISTORY.dateString DESC;
     `,
 
@@ -45,21 +46,29 @@ const queryStatements = {
                                                       ${whereClause}
                                                         ), 0)
                        end as percentage
-    , case when cate.type = 'income' then (select sum(price) 
+    , case when cate.type = 'income' then
+    											(select hc.tot
+    											  from (
+      											  select c.id as id, sum(price) as tot
                                              from ACCOUNT_HISTORY h
                                             inner join ACCOUNT_HISTORY_CATEGORY c
                                                on h.categoryId = c.id
                                               and c.type = 'income'
                                                ${whereClause}
-                                          )
-          else (select sum(price) 
-                  from ACCOUNT_HISTORY h
-                  inner join ACCOUNT_HISTORY_CATEGORY c
-                    on h.categoryId = c.id
-                   and c.type = 'expenditure'
-                    ${whereClause}
-               )
-      end as total           
+                                              group by c.id
+    											  )hc												where hc.id = cate.id)
+    											 
+          else (select hc.tot
+    											  from (
+      											  select c.id as id, sum(price) as tot
+                                             from ACCOUNT_HISTORY h
+                                            inner join ACCOUNT_HISTORY_CATEGORY c
+                                               on h.categoryId = c.id
+                                              and c.type = 'expenditure'
+                                               ${whereClause}
+                                              group by c.id
+    											  )hc												where hc.id = cate.id)
+      end as total          
  from ACCOUNT_HISTORY_CATEGORY as cate
  left join ACCOUNT_HISTORY as h
    on h.categoryId = cate.id

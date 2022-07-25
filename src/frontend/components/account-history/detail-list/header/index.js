@@ -8,7 +8,7 @@ export default class AccountHistoryDetailListHeader {
     this.$target.classList.add('history-detail-list-header');
 
     $parent.appendChild(this.$target);
-    this.detailModel = model;
+    this.model = model;
 
     this.render();
   }
@@ -16,19 +16,19 @@ export default class AccountHistoryDetailListHeader {
   render() {
     const {
       history: {totalDetailCnt, totalIncome, totalExpenditure},
-    } = this.detailModel.getData();
+    } = this.model.getData();
     this.$target.innerHTML = `
         <p class="history-detail-list-total-cnt">전체 내역 ${totalDetailCnt}건</p>
     `;
     const {income, expenditure} = GlobalStore.get('detailState');
     new FilterItem({
       $parent: this.$target,
-      model: this.detailModel,
+      model: this.model,
       state: {name: 'income', total: totalIncome, checked: income},
     });
     new FilterItem({
       $parent: this.$target,
-      model: this.detailModel,
+      model: this.model,
       state: {name: 'expenditure', total: totalExpenditure, checked: expenditure},
     });
   }

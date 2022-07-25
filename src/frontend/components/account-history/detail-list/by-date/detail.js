@@ -1,6 +1,4 @@
 import {CATEGORY_COLORS} from '../../../../constants/category.js';
-import {updateCategoryTypeToggleBtn} from '../../../../utils/category.js';
-import {getNumString} from '../../../../utils/string.js';
 
 export default class AccountHistoryDetailListByDateDetail {
   constructor({$parent, model, state}) {
@@ -8,38 +6,11 @@ export default class AccountHistoryDetailListByDateDetail {
     this.$target.classList.add('history-detail-list-by-date-detail');
 
     $parent.appendChild(this.$target);
-    this.detailModel = model;
+    this.model = model;
     this.state = state;
+    this.$target.dataset.id = this.state.id;
 
     this.render();
-    this.handleEvent();
-  }
-
-  handleEvent() {
-    const $detailAdder = document.querySelector('.history-detail-adder');
-    const $dateStringInput = $detailAdder.querySelector('input[name="dateString"]');
-    const $categorySelect = $detailAdder.querySelector('select[name="category"]');
-    const $descriptionInput = $detailAdder.querySelector('input[name="description"]');
-    const $paymentSelect = $detailAdder.querySelector('select[name="payment"]');
-    const $priceInput = $detailAdder.querySelector('input[name="price"]');
-
-    this.$target.addEventListener('click', () => {
-      const {dateString, id, category, description, payment, price} = this.state;
-      $detailAdder.dataset.id = id;
-      $dateStringInput.value = getNumString(dateString);
-      $categorySelect.value = category.id;
-      $descriptionInput.value = description;
-      $paymentSelect.value = payment.id;
-      $priceInput.value = price.toLocaleString();
-
-      updateCategoryTypeToggleBtn(category.type);
-
-      const event = new Event('input', {
-        bubbles: true,
-      });
-      $categorySelect.dispatchEvent(event);
-      $paymentSelect.dispatchEvent(event);
-    });
   }
 
   render() {

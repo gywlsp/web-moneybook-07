@@ -9,7 +9,7 @@ export default class AccountHistoryDetailAdderInput {
     this.$target.classList.add('history-detail-adder-input-wrapper');
     $parent.appendChild(this.$target);
 
-    this.detailModel = model;
+    this.model = model;
     this.state = state;
 
     this.render();

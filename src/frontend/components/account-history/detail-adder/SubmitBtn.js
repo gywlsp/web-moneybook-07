@@ -7,7 +7,7 @@ export default class AccountHistoryDetailAdderSubmitBtn {
     this.$target.disabled = true;
     $parent.appendChild(this.$target);
 
-    this.detailModel = model;
+    this.model = model;
 
     this.render();
   }

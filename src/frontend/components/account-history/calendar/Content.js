@@ -7,14 +7,14 @@ export default class AccountHistoryCalendarHeaderContent {
     this.$target.classList.add('history-calendar-content');
     $parent.appendChild(this.$target);
 
-    this.calendarModel = model;
+    this.model = model;
     this.todayDateString = getTodayDateString();
     this.render();
   }
 
   getCalendarData() {
     const {year, month} = GlobalStore.get('globalState');
-    const {history} = this.calendarModel.getData();
+    const {history} = this.model.getData();
     const dateCnt = getDateCnt(month);
     let weekIndex = 0;
     const dateData = [...Array(dateCnt)].map((_, i) => {
