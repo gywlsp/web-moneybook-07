@@ -22,6 +22,7 @@ const getRouter = () => {
     set(key, newValue) {
       if (!(key in state)) throw Error('존재하지 않는 key값 입니다.');
       state[key].state = newValue;
+      window.history.pushState({}, null, newValue);
       this.notify(key);
     },
     subscribe(key, observer) {

@@ -42,7 +42,6 @@ export default class GlobalHeader {
       const $homeButton = e.target.closest('.home-button');
       if ($homeButton) {
         Router.set('pathname', '/');
-        window.history.pushState({}, null, '/');
         return;
       }
 
@@ -59,7 +58,6 @@ export default class GlobalHeader {
       if ($viewTab) {
         const {pathname} = $viewTab.dataset;
         Router.set('pathname', pathname);
-        window.history.pushState({}, null, pathname);
       }
     });
   }
@@ -68,28 +66,28 @@ export default class GlobalHeader {
     const currPathname = Router.get('pathname');
     const {year, month} = GlobalStore.get('globalState');
     this.$target.innerHTML = `
-    <button class="home-button">우아한 가계부 🧚🏻‍♀️</button>
-    <div class="month-controller">
-        <button class="prev-month-button">
-            <img src="${chevronLeftIcon}" alt="Chevron Left Icon"/>
-        </button>
-        <div class="year-month-wrapper">
-            <p class="month-view">${month}월</p>
-            <p class="year-view">${year}</p>
-        </div>
-        <button class="next-month-button">
-            <img src="${chevronRightIcon}" alt="Chevron Right Icon"/>
-        </button>
-    </div>
-    <ul class="view-tabs-wrapper">
-        ${TAB_DATA.map(
-          ({name, pathname, icon}) => `<li data-pathname="${pathname}" class="view-tab ${
-            pathname === currPathname ? 'selected' : ''
-          }">
-                <img src="${icon}" alt="${name}-icon"/>
-            </li>`,
-        ).join('')}
-    </ul> 
+      <button class="home-button">우아한 가계부 🧚🏻‍♀️</button>
+      <div class="month-controller">
+          <button class="prev-month-button">
+              <img src="${chevronLeftIcon}" alt="Chevron Left Icon"/>
+          </button>
+          <div class="year-month-wrapper">
+              <p class="month-view">${month}월</p>
+              <p class="year-view">${year}</p>
+          </div>
+          <button class="next-month-button">
+              <img src="${chevronRightIcon}" alt="Chevron Right Icon"/>
+          </button>
+      </div>
+      <ul class="view-tabs-wrapper">
+          ${TAB_DATA.map(
+            ({name, pathname, icon}) => `<li data-pathname="${pathname}" class="view-tab ${
+              pathname === currPathname ? 'selected' : ''
+            }">
+                  <img src="${icon}" alt="${name}-icon"/>
+              </li>`,
+          ).join('')}
+      </ul> 
     `;
   }
 }
