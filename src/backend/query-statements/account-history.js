@@ -1,5 +1,5 @@
 const queryStatements = {
-  getListQuery: ({year, month}) => `
+  getListQuery: ({year, month, categoryId}) => `
     select ACCOUNT_HISTORY.id as id
      , ACCOUNT_HISTORY.dateString as dateString
      , ACCOUNT_HISTORY.categoryId as categoryId
@@ -15,6 +15,7 @@ const queryStatements = {
     join ACCOUNT_HISTORY_CATEGORY 
     on ACCOUNT_HISTORY.categoryId = ACCOUNT_HISTORY_CATEGORY.id 
     where ACCOUNT_HISTORY.dateString like "${year}.${month}.__"
+    ${categoryId === undefined ? '' : `and ACCOUNT_HISTORY.categoryId = ${categoryId}`}
     order by ACCOUNT_HISTORY.dateString DESC;
     `,
 
