@@ -1,6 +1,7 @@
 import '../../stylesheets/statistics.css';
 
 import MainPanel from '../../components/account-history/statistics/MainPanel.js';
+import DetailPanel from '../../components/account-history/statistics/DetailPanel.js';
 
 export default class AccountHistoryStatisticsView {
   constructor({$parent, model}) {
@@ -17,5 +18,6 @@ export default class AccountHistoryStatisticsView {
   render() {
     this.$target.innerHTML = '';
     new MainPanel({$parent: this.$target, model: this.model});
+    new DetailPanel({$parent: this.$target, model: this.model});
   }
 }
