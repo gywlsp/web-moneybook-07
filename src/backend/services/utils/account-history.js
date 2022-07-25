@@ -1,4 +1,4 @@
-const getHistoryResult = ({income, expenditure}, history) => {
+const getHistoryResult = ({income = 'true', expenditure = 'true'}, history) => {
   const result = history.reduce(
     (acc, curr) => {
       const {id, dateString, categoryId, categoryTitle, categoryType, description, paymentId, paymentTitle, price} =
