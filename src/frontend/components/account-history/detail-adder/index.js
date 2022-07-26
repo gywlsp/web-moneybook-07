@@ -46,18 +46,65 @@ export default class AccountHistoryDetailAdder {
     const $paymentSelect = this.$target.querySelector('select[name="payment"]');
     const $priceInput = this.$target.querySelector('input[name="price"]');
 
+    const isFormValid = ({dateString, categoryId, description, paymentId, price}) =>
+      dateString.length !== 8 || !categoryId || !description || !paymentId || !price;
+
+    const isFormNotChanged = ({
+      dateString,
+      categoryId,
+      description,
+      paymentId,
+      price,
+      defaultDateString,
+      defaultCategoryId,
+      defaultDescription,
+      defaultPaymentId,
+      defaultPrice,
+    }) =>
+      dateString === defaultDateString &&
+      categoryId === defaultCategoryId &&
+      description === defaultDescription &&
+      paymentId === defaultPaymentId &&
+      price === defaultPrice;
+
     this.$target.addEventListener('input', () => {
-      if (
-        $dateStringInput.value.length !== 8 ||
-        !$categorySelect.value ||
-        !$descriptionInput.value ||
-        !$paymentSelect.value ||
-        !$priceInput.value
-      ) {
-        $submitBtn.disabled = true;
-        return;
-      }
-      $submitBtn.disabled = false;
+      const {
+        value: dateString,
+        dataset: {defaultValue: defaultDateString},
+      } = $dateStringInput;
+      const {
+        value: categoryId,
+        dataset: {defaultValue: defaultCategoryId},
+      } = $categorySelect;
+      const {
+        value: description,
+        dataset: {defaultValue: defaultDescription},
+      } = $descriptionInput;
+      const {
+        value: paymentId,
+        dataset: {defaultValue: defaultPaymentId},
+      } = $paymentSelect;
+      const {
+        value: price,
+        dataset: {defaultValue: defaultPrice},
+      } = $priceInput;
+
+      $submitBtn.disabled =
+        isFormValid({dateString, categoryId, description, paymentId, price}) ||
+        (this.$target.dataset.id &&
+          isFormNotChanged({
+            dateString,
+            categoryId,
+            description,
+            paymentId,
+            price,
+            defaultDateString,
+            defaultCategoryId,
+            defaultDescription,
+            defaultPaymentId,
+            defaultPrice,
+          })) ||
+        false;
     });
 
     this.$target.addEventListener('click', e => {
