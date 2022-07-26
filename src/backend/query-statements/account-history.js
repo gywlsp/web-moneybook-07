@@ -78,6 +78,14 @@ order by type desc, id
 `;
   },
 
+  getCategoryQuery: () => `
+    select HC.yearMonthString, sum(HC.price) as total from (select left(ACCOUNT_HISTORY.dateString, 7) as yearMonthString, ACCOUNT_HISTORY.categoryId, ACCOUNT_HISTORY.price
+    from ACCOUNT_HISTORY inner join ACCOUNT_HISTORY_CATEGORY
+    on ACCOUNT_HISTORY.categoryId = ACCOUNT_HISTORY_CATEGORY.id
+    where ACCOUNT_HISTORY.categoryId = ? and ACCOUNT_HISTORY.dateString >= ? and ACCOUNT_HISTORY.dateString <= ?) HC
+    group by HC.yearMonthString
+  `,
+
   getPaymentsQuery: () => `select id, title from PAYMENT`,
 
   createPaymentQuery: () => `insert into PAYMENT (title) values (?);`,
