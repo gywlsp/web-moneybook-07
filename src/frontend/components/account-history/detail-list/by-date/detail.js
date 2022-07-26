@@ -1,7 +1,7 @@
-import {CATEGORY_COLORS} from '../../../../constants/category.js';
+import { CATEGORY_COLORS } from '../../../../constants/colors.js';
 
 export default class AccountHistoryDetailListByDateDetail {
-  constructor({$parent, model, state}) {
+  constructor({ $parent, model, state }) {
     this.$target = document.createElement('div');
     this.$target.classList.add('history-detail-list-by-date-detail');
 
@@ -14,7 +14,7 @@ export default class AccountHistoryDetailListByDateDetail {
   }
 
   render() {
-    const {category, description, payment, price} = this.state;
+    const { category, description, payment, price } = this.state;
     this.$target.innerHTML = `
         <p class="category-title" style="background-color:${CATEGORY_COLORS[category.id]}">
             ${category.title}

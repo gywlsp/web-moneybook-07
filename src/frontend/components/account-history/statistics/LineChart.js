@@ -1,5 +1,6 @@
 import GlobalStore from "../../../stores/global.js";
 import { padZero } from "../../../utils/date.js";
+import { COLORS } from '../../../constants/colors.js';
 
 export default class AccountHistoryStatisticsLineChart {
     constructor({ $parent, model }) {
@@ -27,7 +28,7 @@ export default class AccountHistoryStatisticsLineChart {
         const { categories: { expenditure } } = this.model.getData()
         const { title: categoryTitle } = expenditure.find(v => v.id === categoryId);
         this.ctx.font = '400 24px Noto Sans KR';
-        this.ctx.fillStyle = '#1E2222'
+        this.ctx.fillStyle = COLORS.TITLE_ACTIVE;
         this.ctx.fillText(`${categoryTitle} 카테고리 소비 추이`, this.xStart, this.yStart + 32)
     }
 
@@ -80,7 +81,7 @@ export default class AccountHistoryStatisticsLineChart {
         })
 
         this.ctx.font = '700 12px Noto Sans KR';
-        this.ctx.fillStyle = '#8D9393'
+        this.ctx.fillStyle = COLORS.LABEL;
         const dc = this.dx - 0.4;
         this.columnData.forEach(({ month, yearStart, year }, index) => {
             this.ctx.fillText(month, this.xStart + dc * index, this.$target.height - 48)
@@ -95,24 +96,24 @@ export default class AccountHistoryStatisticsLineChart {
         const maxTotalLen = String(maxTotal).length;
         const maxYValue = Math.ceil(maxTotal * (0.1 ** (maxTotalLen - 1))) * (10 ** (maxTotalLen - 1));
         this.ctx.beginPath()
-        this.ctx.fillStyle = '#2AC1BC'
+        this.ctx.fillStyle = COLORS.PRIMARY1
         const dots = this.columnData.slice(0, 6).reduce((acc, { month }, index) => {
             const monthData = categoryMonthData.find(v => v.month === month);
             const x = this.xStart + 1 + (this.dx) * index;
             const y = this.yStart + 16 + this.dy * 12 * (monthData ? (1 - monthData.total / maxYValue) : 1);
             this.ctx.moveTo(x, y)
-            this.ctx.fillStyle = '#2AC1BC'
+            this.ctx.fillStyle = COLORS.PRIMARY1
             this.ctx.arc(x, y, 4, 0, 2 * Math.PI, true)
             this.ctx.fill()
             acc.push([x, y])
             this.ctx.font = '700 12px Noto Sans KR';
-            this.ctx.fillStyle = '#626666'
+            this.ctx.fillStyle = COLORS.BODY
             this.ctx.fillText((monthData?.total || 0).toLocaleString(), x - 4, y - 12)
 
             return acc;
         }, [])
         this.ctx.lineWidth = 1
-        this.ctx.strokeStyle = '#2AC1BC'
+        this.ctx.strokeStyle = COLORS.PRIMARY1
         const prev = [this.xStart + 1, this.yStart + 16 + this.dy * 12]
         dots.forEach(([x, y]) => {
             this.ctx.moveTo(...prev)

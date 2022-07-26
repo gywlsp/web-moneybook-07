@@ -1,15 +1,15 @@
-import {CATEGORY_COLORS} from '../../../constants/category.js';
+import { CATEGORY_COLORS } from '../../../constants/colors.js';
 import GlobalStore from '../../../stores/global.js';
 
 export default class AccountHistoryStatisticsTableRow {
-  constructor({$parent, model, state}) {
+  constructor({ $parent, model, state }) {
     this.$target = document.createElement('button');
     this.$target.classList.add('table-row');
     $parent.appendChild(this.$target);
 
     this.model = model;
     this.state = state;
-    const {id} = this.state;
+    const { id } = this.state;
     this.$target.dataset.id = id;
 
     this.render();
@@ -18,13 +18,13 @@ export default class AccountHistoryStatisticsTableRow {
 
   handleEvent() {
     this.$target.addEventListener('click', () => {
-      const {id} = this.$target.dataset;
-      GlobalStore.set('statisticsState', {categoryId: +id});
+      const { id } = this.$target.dataset;
+      GlobalStore.set('statisticsState', { categoryId: +id });
     });
   }
 
   render() {
-    const {id, title, percentage, total} = this.state;
+    const { id, title, percentage, total } = this.state;
     this.$target.innerHTML = `
             <p class="category-title" style="background-color:${CATEGORY_COLORS[id]}">
                 ${title}
