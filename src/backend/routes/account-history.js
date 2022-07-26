@@ -7,6 +7,7 @@ router.get('/', AccountHistoryController.getList);
 router.post('/', AccountHistoryController.createHistory);
 router.put('/:id', AccountHistoryController.updateHistory);
 router.get('/categories', AccountHistoryController.getCategories);
+router.get('/categories/:id', AccountHistoryController.getCategory);
 router.get('/payments', AccountHistoryController.getPayments);
 router.post('/payments', AccountHistoryController.createPayment);
 router.delete('/payments/:id', AccountHistoryController.deletePayment);

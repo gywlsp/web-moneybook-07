@@ -7,6 +7,7 @@ const {
   getPaymentsQuery,
   createPaymentQuery,
   deletePaymentQuery,
+  getCategoryQuery,
 } = require('../query-statements/account-history.js');
 const {getHistoryResult} = require('./utils/account-history.js');
 
@@ -63,6 +64,21 @@ const AccountHistoryService = {
           expenditure: [],
         },
       );
+      resCallback(result);
+    });
+  },
+
+  getCategory({id, startDate, endDate}, resCallback) {
+    const sql = getCategoryQuery();
+    dbPool.query(sql, [id, startDate, endDate], (err, monthData) => {
+      const result = monthData.map(({yearMonthString, total}) => {
+        const [yearString, monthString] = yearMonthString.split('.');
+        return {
+          year: Number(yearString),
+          month: Number(monthString),
+          total: Number(total),
+        };
+      });
       resCallback(result);
     });
   },

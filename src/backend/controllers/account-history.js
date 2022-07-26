@@ -47,6 +47,17 @@ const AccountHistoryController = {
     });
   },
 
+  getCategory(req, res) {
+    const {id} = req.params;
+    const {startYear, startMonth, endYear, endMonth} = req.query;
+    const startDate = `${startYear}.${startMonth}.01`;
+    const endDate = `${endYear}.${endMonth}.31`;
+
+    AccountHistoryService.getCategory({id, startDate, endDate}, categories => {
+      res.status(200).send(categories);
+    });
+  },
+
   getPayments(req, res) {
     AccountHistoryService.getPayments(payments => {
       res.status(200).send(payments);

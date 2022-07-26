@@ -15,7 +15,7 @@ export default class AccountHistoryStatisticsModel extends Observer {
     });
     GlobalStore.subscribe('statisticsState', () => {
       if (Router.get('pathname') !== '/statistics' || GlobalStore.get('statisticsState').categoryId === null) return;
-      this.mutateHistory.apply(this);
+      this.mutateCategory.apply(this);
     });
     this.data = {
       categories: {expenditure: [], history: {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []}},
@@ -38,10 +38,27 @@ export default class AccountHistoryStatisticsModel extends Observer {
     return AccountHistoryAPI.getList({year, month: padZero(month), categoryId});
   }
 
-  async mutateHistory() {
-    const history = await this.fetchHistory();
-    this.data = {...this.data, history};
-    this.notify();
+  fetchCategory() {
+    const {year: endYear, month: endMonth} = GlobalStore.get('globalState');
+    const {categoryId} = GlobalStore.get('statisticsState');
+    const date = new Date(`${endYear}.${padZero(endMonth)}.01`);
+    date.setMonth(date.getMonth() - 5);
+    const startYear = date.getFullYear();
+    const startMonth = date.getMonth() + 1;
+    return AccountHistoryAPI.getCategory(categoryId, {
+      startYear,
+      startMonth: padZero(startMonth),
+      endYear,
+      endMonth: padZero(endMonth),
+    });
+  }
+
+  async mutateCategory() {
+    Promise.all([this.fetchHistory(), this.fetchCategory()]).then(values => {
+      const [history, categoryMonthData] = values;
+      this.data = {...this.data, history, categoryMonthData};
+      this.notify();
+    });
   }
 
   async setData() {
