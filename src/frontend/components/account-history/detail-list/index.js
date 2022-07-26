@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import AccountHistoryDetailListByDate from './by-date/index.js';
 import AccountHistoryDetailListHeader from './header/index.js';
 
@@ -27,6 +28,11 @@ export default class AccountHistoryDetailList {
       history: {dates},
     } = this.model.getData();
 
+    const setDefaultValue = ($elem, defaultValue) => {
+      $elem.dataset.defaultValue = defaultValue;
+      $elem.value = defaultValue;
+    };
+
     this.$target.addEventListener('click', e => {
       const $detailRow = e.target.closest('.history-detail-list-by-date-detail');
       if (!$detailRow) return;
@@ -44,11 +50,11 @@ export default class AccountHistoryDetailList {
       const detail = details[detailIndex];
       const {category, description, payment, price} = detail;
       $detailAdder.dataset.id = detailId;
-      $dateStringInput.value = getNumString(dateString);
-      $categorySelect.value = category.id;
-      $descriptionInput.value = description;
-      $paymentSelect.value = payment.id;
-      $priceInput.value = price.toLocaleString();
+      setDefaultValue($dateStringInput, getNumString(dateString));
+      setDefaultValue($categorySelect, category.id);
+      setDefaultValue($descriptionInput, description);
+      setDefaultValue($paymentSelect, payment.id);
+      setDefaultValue($priceInput, price.toLocaleString());
 
       updateCategoryTypeToggleBtn(category.type);
 
