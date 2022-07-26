@@ -1,7 +1,7 @@
-import {CATEGORY_COLORS} from '../../../constants/category.js';
+import { CATEGORY_COLORS } from '../../../constants/colors.js';
 
 export default class AccountHistoryStatisticsDonutChart {
-  constructor({$parent, model}) {
+  constructor({ $parent, model }) {
     this.$target = document.createElement('canvas');
     this.$target.width = 360;
     this.$target.height = 360;
@@ -15,7 +15,7 @@ export default class AccountHistoryStatisticsDonutChart {
     this.render();
   }
 
-  drawDonutSlice({x, y, radius, startAngle, angle, color}) {
+  drawDonutSlice({ x, y, radius, startAngle, angle, color }) {
     this.ctx.fillStyle = color;
     this.ctx.beginPath();
     this.ctx.moveTo(x, y);
@@ -26,13 +26,13 @@ export default class AccountHistoryStatisticsDonutChart {
 
   draw() {
     const {
-      categories: {expenditure},
+      categories: { expenditure },
     } = this.model.getData();
 
-    const totalPercentage = expenditure.reduce((acc, {percentage}) => acc + percentage, 0);
+    const totalPercentage = expenditure.reduce((acc, { percentage }) => acc + percentage, 0);
 
     let startAngle = 1.5 * Math.PI;
-    expenditure.forEach(({id, percentage}) => {
+    expenditure.forEach(({ id, percentage }) => {
       const angle = (percentage / totalPercentage) * 2 * Math.PI;
       this.drawDonutSlice({
         x: this.$target.width / 2,
