@@ -1,6 +1,7 @@
 import GlobalStore from "../../../stores/global.js";
-import { padZero } from "../../../utils/date.js";
+import { getDateString } from "../../../utils/date.js";
 import { COLORS } from '../../../constants/colors.js';
+import { ceil } from "../../../utils/number.js";
 
 export default class AccountHistoryStatisticsLineChart {
     constructor({ $parent, model }) {
@@ -8,120 +9,139 @@ export default class AccountHistoryStatisticsLineChart {
         this.$target.width = $parent.clientWidth;
         this.$target.height = 654;
         this.$target.classList.add('line-chart-canvas');
+        $parent.appendChild(this.$target);
         this.ctx = this.$target.getContext('2d');
+        this.ctx.textBaseline = 'top';
+        this.ctx.lineWidth = 1;
         this.xStart = 42;
         this.yStart = 36;
+        this.titleHeight = 60;
+        this.gridYStart = this.yStart + this.titleHeight;
         this.contentWidth = this.$target.width - this.xStart * 2 - 1;
-        this.contentHeight = this.$target.height - this.yStart * 2 - 97;
-        this.dx = this.contentWidth / 11;
-        this.dy = this.contentHeight / 11;
-
-        $parent.appendChild(this.$target);
+        this.gridHeight = this.$target.height - this.yStart * 2 - 97;
+        this.lineCnt = 12;
+        this.dx = this.contentWidth / (this.lineCnt - 1);
+        this.dy = this.gridHeight / (this.lineCnt - 1);
 
         this.model = model;
 
         this.render();
     }
 
+    drawText({ fontWeight = 400, fontSize = '12px', color = COLORS.TITLE_ACTIVE, value, x, y }) {
+        this.ctx.font = `${fontWeight} ${fontSize} Noto Sans KR`;
+        this.ctx.fillStyle = color;
+        this.ctx.fillText(value, x, y)
+    }
+
     drawTitle() {
         const { categoryId } = GlobalStore.get('statisticsState');
         const { categories: { expenditure } } = this.model.getData()
         const { title: categoryTitle } = expenditure.find(v => v.id === categoryId);
-        this.ctx.font = '400 24px Noto Sans KR';
-        this.ctx.fillStyle = COLORS.TITLE_ACTIVE;
-        this.ctx.fillText(`${categoryTitle} 카테고리 소비 추이`, this.xStart, this.yStart + 32)
+        this.drawText({ fontSize: '24px', value: `${categoryTitle} 카테고리 소비 추이`, x: this.xStart, y: this.yStart })
+    }
+
+    drawStrokePath({ drawPath, color = COLORS.BACKGROUND }) {
+        this.ctx.beginPath()
+        this.ctx.strokeStyle = color
+        drawPath()
+        this.ctx.stroke()
+        this.ctx.closePath()
+    }
+
+    drawDot({ color = COLORS.PRIMARY1, x, y, radius }) {
+        this.ctx.beginPath()
+        this.ctx.fillStyle = color
+        this.ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
+        this.ctx.fill()
+        this.ctx.closePath()
     }
 
     drawGridLine({ fromX, fromY, toX, toY }) {
         const halfLineWidth = this.ctx.lineWidth / 2
         this.ctx.moveTo(fromX + halfLineWidth, fromY + halfLineWidth)
         this.ctx.lineTo(toX + halfLineWidth, toY + halfLineWidth)
-        this.ctx.stroke()
     }
 
-    drawGrid() {
-        let x = this.xStart;
-        let y = this.yStart + 60;
-
-        this.ctx.beginPath()
-        this.ctx.lineWidth = 1
-        this.ctx.strokeStyle = '#E4E4E4'
-
-        for (let i = 0; i < 12; i += 1) {
+    drawGridRows() {
+        const x = this.xStart;
+        let y = this.gridYStart;
+        for (let i = 0; i < this.lineCnt; i += 1) {
             this.drawGridLine({ fromX: x, fromY: y, toX: x + this.contentWidth, toY: y })
             y += this.dy;
         }
+    }
 
-        y = this.yStart + 60;
-        for (let i = 0; i < 12; i += 1) {
-            this.drawGridLine({ fromX: x, fromY: y, toX: x, toY: y + this.contentHeight })
+    drawGridColumns() {
+        let x = this.xStart;
+        const y = this.gridYStart;
+        for (let i = 0; i < this.lineCnt; i += 1) {
+            this.drawGridLine({ fromX: x, fromY: y, toX: x, toY: y + this.gridHeight })
             x += this.dx;
         }
+    }
 
-        this.ctx.closePath()
+    drawGrid() {
+        this.drawStrokePath({
+            drawPath: () => {
+                this.drawGridRows();
+                this.drawGridColumns();
+            }
+        })
     }
 
     drawColumnLabel() {
         const { year, month } = GlobalStore.get('globalState')
-
-        const date = new Date(`${year}.${padZero(month)}.01`)
+        const date = new Date(getDateString({ year, month, date: 1 }))
         date.setMonth(date.getMonth() - 5)
         const startYear = date.getFullYear()
         const startMonth = date.getMonth() + 1
 
-        this.columnData = [...Array(12)].map((_, i) => {
-            const month = ((startMonth + i) % 12) || 12;
-            const year = (month === 1 && i !== 0) ? startYear + 1 : startYear;
-            const yearStart = (i === 0 || (month === 1 && i !== 0));
+        const TOTAL_MONTH = 12;
+        this.columnData = [...Array(this.lineCnt)].map((_, i) => {
+            const month = ((startMonth + i) % TOTAL_MONTH) || TOTAL_MONTH;
+            const newYear = (month === 1 && i !== 0)
+            const year = newYear ? startYear + 1 : startYear;
+            const firstMonth = (i === 0 || newYear);
             return ({
                 year,
-                yearStart,
+                firstMonth,
                 month,
             })
         })
 
-        this.ctx.font = '700 12px Noto Sans KR';
-        this.ctx.fillStyle = COLORS.LABEL;
-        const dc = this.dx - 0.4;
-        this.columnData.forEach(({ month, yearStart, year }, index) => {
-            this.ctx.fillText(month, this.xStart + dc * index, this.$target.height - 48)
-            if (!yearStart) return;
-            this.ctx.fillText(year, this.xStart + dc * index - 8, this.$target.height - 36)
+        const dc = this.dx - 0.5 * this.ctx.lineWidth;
+        this.columnData.forEach(({ month, firstMonth, year }, index) => {
+            this.drawText({ fontWeight: 700, color: COLORS.LABEL, value: month, x: this.xStart + dc * index, y: this.gridYStart + this.gridHeight + 12 })
+            if (!firstMonth) return;
+            this.drawText({ fontWeight: 500, color: COLORS.PRIMARY2, value: year, x: this.xStart + dc * index - 8, y: this.gridYStart + this.gridHeight + 24 })
         })
     }
 
     drawGraph() {
         const { categoryMonthData } = this.model.getData();
         const maxTotal = Math.max(...categoryMonthData.map(({ total }) => total));
-        const maxTotalLen = String(maxTotal).length;
-        const maxYValue = Math.ceil(maxTotal * (0.1 ** (maxTotalLen - 1))) * (10 ** (maxTotalLen - 1));
-        this.ctx.beginPath()
-        this.ctx.fillStyle = COLORS.PRIMARY1
+        const digit = String(maxTotal).length - 1;
+        const maxYValue = ceil(maxTotal, digit);
         const dots = this.columnData.slice(0, 6).reduce((acc, { month }, index) => {
-            const monthData = categoryMonthData.find(v => v.month === month);
-            const x = this.xStart + 1 + (this.dx) * index;
-            const y = this.yStart + 16 + this.dy * 12 * (monthData ? (1 - monthData.total / maxYValue) : 1);
-            this.ctx.moveTo(x, y)
-            this.ctx.fillStyle = COLORS.PRIMARY1
-            this.ctx.arc(x, y, 4, 0, 2 * Math.PI, true)
-            this.ctx.fill()
+            const currMonthData = categoryMonthData.find(v => v.month === month);
+            const x = this.xStart + this.ctx.lineWidth + (this.dx) * index;
+            const y = this.gridYStart + this.gridHeight * (currMonthData ? (1 - currMonthData.total / maxYValue) : 1);
+            this.drawDot({ x, y, radius: 4 })
+            this.drawText({ fontWeight: 700, color: COLORS.BODY, value: (currMonthData?.total || 0).toLocaleString(), x: x - 4, y: y - 20 })
             acc.push([x, y])
-            this.ctx.font = '700 12px Noto Sans KR';
-            this.ctx.fillStyle = COLORS.BODY
-            this.ctx.fillText((monthData?.total || 0).toLocaleString(), x - 4, y - 12)
-
             return acc;
         }, [])
-        this.ctx.lineWidth = 1
-        this.ctx.strokeStyle = COLORS.PRIMARY1
-        const prev = [this.xStart + 1, this.yStart + 16 + this.dy * 12]
-        dots.forEach(([x, y]) => {
-            this.ctx.moveTo(...prev)
-            this.ctx.lineTo(x, y);
-            this.ctx.stroke()
-            prev[0] = x;
-            prev[1] = y;
-        })
+        dots.reduce((prev, curr) => {
+            this.drawStrokePath({
+                color: COLORS.PRIMARY1,
+                drawPath: () => {
+                    this.ctx.moveTo(...prev)
+                    this.ctx.lineTo(...curr);
+                }
+            })
+            return curr;
+        }, [this.xStart + this.ctx.lineWidth, this.gridYStart + this.gridHeight])
 
     }
 
