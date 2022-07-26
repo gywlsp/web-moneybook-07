@@ -17,6 +17,10 @@ export default class AccountHistoryStatisticsModel extends Observer {
       if (Router.get('pathname') !== '/statistics' || GlobalStore.get('statisticsState').categoryId === null) return;
       this.mutateCategory.apply(this);
     });
+    Router.subscribe('pathname', () => {
+      if (Router.get('pathname') === '/statistics') return;
+      GlobalStore.set('statisticsState', { categoryId: null });
+    });
     this.data = {
       categories: { expenditure: [] },
     };
