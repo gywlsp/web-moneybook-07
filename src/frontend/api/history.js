@@ -1,5 +1,5 @@
 import API from './index.js';
-import { getQueryString } from '../utils/api.js';
+import {getQueryString} from '../utils/api.js';
 
 const AccountHistoryAPI = {
   getList: filter => {
@@ -12,9 +12,13 @@ const AccountHistoryAPI = {
     const queryString = getQueryString(filter);
     return API.get(`/api/account-history/categories${queryString}`);
   },
+  getCategory: (id, filter = {}) => {
+    const queryString = getQueryString(filter);
+    return API.get(`/api/account-history/categories/${id}${queryString}`);
+  },
   getPayments: () => API.get('/api/account-history/payments'),
-  postPayment: (body) => API.post('/api/account-history/payments', body),
-  deletePayment: (id) => API.delete(`/api/account-history/payments/${id}`),
+  postPayment: body => API.post('/api/account-history/payments', body),
+  deletePayment: id => API.delete(`/api/account-history/payments/${id}`),
 };
 
 export default AccountHistoryAPI;
