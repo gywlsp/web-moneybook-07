@@ -12,17 +12,9 @@ export default class AccountHistoryDetailModel extends Observer {
       if (Router.get('pathname') !== '/') return;
       this.setData.apply(this);
     });
-    GlobalStore.subscribe('detailState', this.mutateHistory.bind(this));
-    this.data = {
-      history: {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []},
-      categories: {income: [], expenditure: []},
-      payments: [],
-    };
+    GlobalStore.subscribe('detailState', this.onHistoryMutate.bind(this));
+    this.initData();
     this.setData();
-  }
-
-  getData() {
-    return this.data;
   }
 
   fetchHistory() {
@@ -39,25 +31,31 @@ export default class AccountHistoryDetailModel extends Observer {
     return AccountHistoryAPI.getPayments();
   }
 
-  setData() {
-    Promise.all([this.fetchHistory(), this.fetchCategories(), this.fetchPayments()]).then(values => {
-      const [history, categories, payments] = values;
-      this.data = {history, categories, payments};
-      this.notify();
+  async onHistoryMutate() {
+    const history = await this.fetchHistory();
+    this.set('history', history);
+  }
+
+  onPaymentMutate() {
+    Promise.all([this.fetchHistory(), this.fetchPayments()]).then(values => {
+      const [history, payments] = values;
+      this.set('history', history);
+      this.set('payments', payments);
     });
   }
 
-  async mutateHistory() {
-    const history = await this.fetchHistory();
-    this.data = {...this.data, history};
-    this.notify();
+  initData() {
+    this.init('history', {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []});
+    this.init('categories', {income: [], expenditure: []});
+    this.init('payments', []);
   }
 
-  mutatePayment() {
-    Promise.all([this.fetchHistory(), this.fetchPayments()]).then(values => {
-      const [history, payments] = values;
-      this.data = {...this.data, history, payments};
-      this.notify();
+  setData() {
+    Promise.all([this.fetchHistory(), this.fetchCategories(), this.fetchPayments()]).then(values => {
+      const [history, categories, payments] = values;
+      this.set('categories', categories);
+      this.set('payments', payments);
+      this.set('history', history);
     });
   }
 }

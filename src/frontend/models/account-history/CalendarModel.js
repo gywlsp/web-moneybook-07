@@ -12,14 +12,8 @@ export default class AccountHistoryCalendarModel extends Observer {
       if (Router.get('pathname') !== '/calendar') return;
       this.setData.apply(this);
     });
-    this.data = {
-      history: {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []},
-    };
+    this.initData();
     this.setData();
-  }
-
-  getData() {
-    return this.data;
   }
 
   fetchHistory() {
@@ -27,9 +21,12 @@ export default class AccountHistoryCalendarModel extends Observer {
     return AccountHistoryAPI.getList({year, month: padZero(month), income: true, expenditure: true});
   }
 
+  initData() {
+    this.init('history', {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []});
+  }
+
   async setData() {
     const history = await this.fetchHistory();
-    this.data = {history};
-    this.notify();
+    this.set('history', history);
   }
 }

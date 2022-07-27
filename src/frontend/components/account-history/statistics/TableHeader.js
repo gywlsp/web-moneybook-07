@@ -10,9 +10,7 @@ export default class AccountHistoryStatisticsTableHeader {
   }
 
   render() {
-    const {
-      categories: {expenditure},
-    } = this.model.getData();
+    const {expenditure} = this.model.get('categories');
     const totalExpenditure = expenditure.reduce((acc, curr) => acc + curr.total, 0);
     if (!totalExpenditure) return;
 

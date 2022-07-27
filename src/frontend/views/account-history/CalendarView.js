@@ -11,7 +11,7 @@ export default class AccountHistoryCalendarView {
     $parent.appendChild(this.$target);
 
     this.model = model;
-    this.model.subscribe(this.render.bind(this));
+    this.model.subscribe('history', this.render.bind(this));
 
     this.render();
   }

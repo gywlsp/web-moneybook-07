@@ -40,9 +40,7 @@ export default class AccountHistoryStatisticsLineChart {
 
   drawTitle() {
     const {categoryId} = GlobalStore.get('statisticsState');
-    const {
-      categories: {expenditure},
-    } = this.model.getData();
+    const {expenditure} = this.model.get('categories');
     const {title: categoryTitle} = expenditure.find(v => v.id === categoryId);
     this.drawText({fontSize: '24px', value: `${categoryTitle} 카테고리 소비 추이`, x: this.xStart, y: this.yStart});
   }
@@ -137,12 +135,12 @@ export default class AccountHistoryStatisticsLineChart {
   }
 
   drawGraph() {
-    const {categoryMonthData} = this.model.getData();
-    const maxTotal = Math.max(...categoryMonthData.map(({total}) => total));
+    const categoryRecentMonthly = this.model.get('categoryRecentMonthly');
+    const maxTotal = Math.max(...categoryRecentMonthly.map(({total}) => total));
     const digit = String(maxTotal).length - 1;
     const maxYValue = ceil(maxTotal, digit);
     const dots = this.columnData.slice(0, 6).reduce((acc, {month}, index) => {
-      const currMonthData = categoryMonthData.find(v => v.month === month);
+      const currMonthData = categoryRecentMonthly.find(v => v.month === month);
       const x = this.xStart + this.ctx.lineWidth + this.dx * index;
       const y = this.gridYStart + this.gridHeight * (currMonthData ? 1 - currMonthData.total / maxYValue : 1);
       this.drawDot({x, y, radius: 4, color: this.categoryColor});

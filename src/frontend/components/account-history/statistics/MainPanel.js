@@ -14,9 +14,7 @@ export default class AccountHistoryStatisticsMainPanel {
   }
 
   render() {
-    const {
-      categories: {expenditure},
-    } = this.model.getData();
+    const {expenditure} = this.model.get('categories');
     if (!expenditure.length) {
       new AccountHistoryStatisticsNoResult({$parent: this.$target});
       return;

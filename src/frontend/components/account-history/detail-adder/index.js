@@ -32,7 +32,7 @@ export default class AccountHistoryDetailAdder {
       id === undefined ? AccountHistoryAPI.post(this.formData) : AccountHistoryAPI.put(id, this.formData);
     try {
       await submit();
-      this.model.mutateHistory();
+      this.model.onHistoryMutate();
     } catch (err) {
       alert(`수입/지출 내역 ${id === undefined ? '추가' : '수정'} 요청이 실패했습니다.`);
     }
@@ -47,7 +47,11 @@ export default class AccountHistoryDetailAdder {
     const $priceInput = this.$target.querySelector('input[name="price"]');
 
     const isFormValid = ({dateString, categoryId, description, paymentId, price}) =>
-      dateString.length !== 8 || !categoryId || !description || !paymentId || !price;
+      dateString.length === 8 &&
+      categoryId &&
+      description &&
+      ($paymentSelect.dataset.defaultValue === '' || paymentId) &&
+      price;
 
     const isFormNotChanged = ({
       dateString,
@@ -90,7 +94,7 @@ export default class AccountHistoryDetailAdder {
       } = $priceInput;
 
       $submitBtn.disabled =
-        isFormValid({dateString, categoryId, description, paymentId, price}) ||
+        !isFormValid({dateString, categoryId, description, paymentId, price}) ||
         (this.$target.dataset.id &&
           isFormNotChanged({
             dateString,

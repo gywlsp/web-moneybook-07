@@ -10,6 +10,7 @@ export default class AccountHistoryStatisticsDetailPanel {
     $parent.appendChild(this.$target);
 
     this.model = model;
+    this.model.subscribe('historyByCategory', this.render.bind(this));
 
     this.render();
   }
@@ -17,10 +18,13 @@ export default class AccountHistoryStatisticsDetailPanel {
   render() {
     const {categoryId} = GlobalStore.get('statisticsState');
     if (categoryId === null) return;
+
+    this.$target.innerHTML = '';
     this.$target.classList.remove('hidden');
-    const {history} = this.model.getData();
+
+    const historyByCategory = this.model.get('historyByCategory');
     new AccountHistoryStatisticsLineChart({$parent: this.$target, model: this.model, state: {categoryId}});
-    history?.dates
+    historyByCategory?.dates
       ?.map(date => ({...date, totalExpenditure: 0}))
       .forEach(date => {
         new AccountHistoryDetailListByDate({$parent: this.$target, model: this.model, state: {date}});
