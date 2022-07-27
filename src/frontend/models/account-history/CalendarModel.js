@@ -10,16 +10,10 @@ export default class AccountHistoryCalendarModel extends Observer {
     super();
     GlobalStore.subscribe('globalState', () => {
       if (Router.get('pathname') !== '/calendar') return;
-      this.initData.apply(this);
+      this.setData.apply(this);
     });
-    this.data = {
-      history: {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []},
-    };
     this.initData();
-  }
-
-  getData() {
-    return this.data;
+    this.setData();
   }
 
   fetchHistory() {
@@ -27,9 +21,12 @@ export default class AccountHistoryCalendarModel extends Observer {
     return AccountHistoryAPI.getList({year, month: padZero(month), income: true, expenditure: true});
   }
 
-  async initData() {
+  initData() {
+    this.init('history', {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []});
+  }
+
+  async setData() {
     const history = await this.fetchHistory();
-    this.data = {history};
-    this.notify();
+    this.set('history', history);
   }
 }

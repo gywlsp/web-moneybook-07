@@ -9,9 +9,7 @@ export default class AccountHistoryCalendarFooter {
   }
 
   render() {
-    const {
-      history: {totalIncome, totalExpenditure},
-    } = this.model.getData();
+    const {totalIncome, totalExpenditure} = this.model.get('history');
     const total = totalIncome - totalExpenditure;
     this.$target.innerHTML = `
         <p>총 수입</p>

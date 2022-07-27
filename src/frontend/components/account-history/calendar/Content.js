@@ -14,7 +14,7 @@ export default class AccountHistoryCalendarHeaderContent {
 
   getCalendarData() {
     const {year, month} = GlobalStore.get('globalState');
-    const {history} = this.model.getData();
+    const history = this.model.get('history');
     const dateCnt = getDateCnt(month);
     let weekIndex = 0;
     const dateData = [...Array(dateCnt)].map((_, i) => {
