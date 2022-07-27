@@ -24,5 +24,6 @@ export default class AccountHistoryStatisticsDetailPanel {
       .forEach(date => {
         new AccountHistoryDetailListByDate({ $parent: this.$target, model: this.model, state: { date } });
       });
+    this.$target.scrollIntoView({behavior: 'smooth'});
   }
 }
