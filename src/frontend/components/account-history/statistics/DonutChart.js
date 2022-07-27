@@ -11,7 +11,7 @@ export default class AccountHistoryStatisticsDonutChart {
     $parent.appendChild(this.$target);
 
     this.model = model;
-    this.fragmentCnt = 80;
+    this.fragmentCnt = 40;
     this.fragmentRatio = 1 / this.fragmentCnt;
 
     this.render();
