@@ -22,6 +22,8 @@ export default class AccountHistoryStatisticsLineChart {
     this.lineCnt = 12;
     this.dx = this.contentWidth / (this.lineCnt - 1);
     this.dy = this.gridHeight / (this.lineCnt - 1);
+    this.animationDelay = 0.5;
+    this.fragmentCnt = this.animationDelay * 60;
 
     this.model = model;
 
@@ -152,36 +154,40 @@ export default class AccountHistoryStatisticsLineChart {
       acc.push([x, y]);
       return acc;
     }, []);
-    dots.reduce(
-      (from, to) => {
-        let [fromX, fromY] = from;
-        const [toX, toY] = to;
-        const fragmentCnt = 60 * 1;
-        const [dx, dy] = [(toX - fromX) / fragmentCnt, (toY - fromY) / fragmentCnt];
-        let t = 0;
-        const animateDrawStrokePath = () => {
-          t += 1;
+
+    const dotTraces = dots.reduce((result, dot, index) => {
+      if (index === dots.length - 1) {
+        result.push(dot);
+        return result;
+      }
+      const [startX, startY] = dot;
+      const [endX, endY] = dots[index + 1];
+      const [dx, dy] = [(endX - startX) / this.fragmentCnt, (endY - startY) / this.fragmentCnt];
+      const traces = [...Array(this.fragmentCnt)].reduce((acc, _, i) => {
+        const nextTrace = [startX + dx * i, startY + dy * i];
+        acc.push(nextTrace);
+        return acc;
+      }, []);
+      return result.concat(traces);
+    }, []);
+
+    let i = 0;
+    const animateDrawingTraces = () => {
+      const [fromX, fromY] = dotTraces[i];
+      const [toX, toY] = dotTraces[i + 1];
           this.drawStrokePath({
-            color: COLORS.PRIMARY1,
+        color: this.categoryColor,
             drawPath: () => {
-              const lastFragment = t === fragmentCnt;
               this.ctx.moveTo(fromX, fromY);
-              const [nextX, nextY] = lastFragment ? [toX, toY] : [fromX + dx, fromY + dy];
-              this.ctx.lineTo(nextX, nextY);
-              fromX = nextX;
-              fromY = nextY;
-              const raf = requestAnimationFrame(animateDrawStrokePath);
-              if (lastFragment) {
-                cancelAnimationFrame(raf);
-              }
+          this.ctx.lineTo(toX, toY);
             },
           });
+      i += 1;
+      if (i < dotTraces.length - 1) {
+        requestAnimationFrame(animateDrawingTraces);
+      }
         };
-        animateDrawStrokePath();
-        return to;
-      },
-      [this.xStart + this.ctx.lineWidth, this.gridYStart + this.gridHeight],
-    );
+    animateDrawingTraces();
   }
 
   render() {
