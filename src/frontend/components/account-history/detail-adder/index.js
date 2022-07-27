@@ -32,7 +32,7 @@ export default class AccountHistoryDetailAdder {
       id === undefined ? AccountHistoryAPI.post(this.formData) : AccountHistoryAPI.put(id, this.formData);
     try {
       await submit();
-      this.model.mutateHistory();
+      this.model.onHistoryMutate();
     } catch (err) {
       alert(`수입/지출 내역 ${id === undefined ? '추가' : '수정'} 요청이 실패했습니다.`);
     }

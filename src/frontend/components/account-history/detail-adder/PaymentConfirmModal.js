@@ -18,7 +18,7 @@ export default class PaymentConfirmModal {
       id === undefined ? AccountHistoryAPI.postPayment({title: value}) : AccountHistoryAPI.deletePayment(id);
     try {
       await submit();
-      this.model.mutatePayment();
+      this.model.onPaymentMutate();
       this.$target.classList.add('hidden');
     } catch (err) {
       alert(`결제수단 ${id === undefined ? '추가' : '삭제'} 요청이 실패했습니다.`);
