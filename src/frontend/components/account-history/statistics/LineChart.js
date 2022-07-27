@@ -22,7 +22,7 @@ export default class AccountHistoryStatisticsLineChart {
     this.lineCnt = 12;
     this.dx = this.contentWidth / (this.lineCnt - 1);
     this.dy = this.gridHeight / (this.lineCnt - 1);
-    this.animationDelay = 0.5;
+    this.animationDelay = 0.3;
     this.fragmentCnt = this.animationDelay * 60;
 
     this.model = model;
