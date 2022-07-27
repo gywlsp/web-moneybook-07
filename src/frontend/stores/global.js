@@ -3,19 +3,18 @@ const getGlobalStore = () => {
 
   const globalStore = {
     init(key, defaultValue) {
-      if (key in state) throw Error('이미 존재하는 key값 입니다.');
+      if (key in state) throw Error('이미 존재하는 key값입니다.');
       state[key] = {
         state: defaultValue,
         observers: new Set(),
       };
-      return key;
     },
     get(key) {
-      if (!(key in state)) throw Error('존재하지 않는 key값 입니다.');
+      if (!(key in state)) throw Error('존재하지 않는 key값입니다.');
       return state[key].state;
     },
     set(key, newValue) {
-      if (!(key in state)) throw Error('존재하지 않는 key값 입니다.');
+      if (!(key in state)) throw Error('존재하지 않는 key값입니다.');
       state[key].state = newValue;
       this.notify(key);
     },
