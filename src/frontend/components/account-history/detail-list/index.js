@@ -24,9 +24,7 @@ export default class AccountHistoryDetailList {
     const $descriptionInput = $detailAdder.querySelector('input[name="description"]');
     const $paymentSelect = $detailAdder.querySelector('select[name="payment"]');
     const $priceInput = $detailAdder.querySelector('input[name="price"]');
-    const {
-      history: {dates},
-    } = this.model.getData();
+    const {dates} = this.model.get('history');
 
     const setDefaultValue = ($elem, defaultValue) => {
       $elem.dataset.defaultValue = defaultValue;
@@ -70,9 +68,7 @@ export default class AccountHistoryDetailList {
 
   render() {
     new AccountHistoryDetailListHeader({$parent: this.$target, model: this.model});
-    const {
-      history: {dates},
-    } = this.model.getData();
+    const {dates} = this.model.get('history');
     dates.forEach(date => {
       new AccountHistoryDetailListByDate({$parent: this.$target, model: this.model, state: {date}});
     });

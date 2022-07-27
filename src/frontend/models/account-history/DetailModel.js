@@ -13,16 +13,7 @@ export default class AccountHistoryDetailModel extends Observer {
       this.initData.apply(this);
     });
     GlobalStore.subscribe('detailState', this.onHistoryMutate.bind(this));
-    this.data = {
-      history: {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []},
-      categories: {income: [], expenditure: []},
-      payments: [],
-    };
     this.initData();
-  }
-
-  getData() {
-    return this.data;
   }
 
   fetchHistory() {
@@ -41,23 +32,27 @@ export default class AccountHistoryDetailModel extends Observer {
 
   async onHistoryMutate() {
     const history = await this.fetchHistory();
-    this.data = {...this.data, history};
-    this.notify();
+    this.set('history', history);
   }
 
-  onMutatePayment() {
+  onPaymentMutate() {
     Promise.all([this.fetchHistory(), this.fetchPayments()]).then(values => {
       const [history, payments] = values;
-      this.data = {...this.data, history, payments};
-      this.notify();
+      this.set('history', history);
+      this.set('payments', payments);
     });
   }
 
   initData() {
+    this.init('history', {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []});
+    this.init('categories', {income: [], expenditure: []});
+    this.init('payments', []);
+
     Promise.all([this.fetchHistory(), this.fetchCategories(), this.fetchPayments()]).then(values => {
       const [history, categories, payments] = values;
-      this.data = {history, categories, payments};
-      this.notify();
+      this.set('categories', categories);
+      this.set('payments', payments);
+      this.set('history', history);
     });
   }
 }

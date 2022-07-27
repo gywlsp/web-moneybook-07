@@ -14,9 +14,7 @@ export default class AccountHistoryDetailListHeader {
   }
 
   render() {
-    const {
-      history: {totalDetailCnt, totalIncome, totalExpenditure},
-    } = this.model.getData();
+    const {totalDetailCnt, totalIncome, totalExpenditure} = this.model.get('history');
     this.$target.innerHTML = `
         <p class="history-detail-list-total-cnt">전체 내역 ${totalDetailCnt}건</p>
     `;
