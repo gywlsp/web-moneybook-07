@@ -1,10 +1,10 @@
 import GlobalStore from '../../../stores/global.js';
 import {getDateString} from '../../../utils/date.js';
-import {COLORS} from '../../../constants/colors.js';
+import {CATEGORY_COLORS, COLORS} from '../../../constants/colors.js';
 import {ceil} from '../../../utils/number.js';
 
 export default class AccountHistoryStatisticsLineChart {
-  constructor({$parent, model}) {
+  constructor({$parent, model, state}) {
     this.$target = document.createElement('canvas');
     this.$target.width = $parent.clientWidth;
     this.$target.height = 654;
@@ -26,6 +26,8 @@ export default class AccountHistoryStatisticsLineChart {
     this.fragmentCnt = this.animationDelay * 60;
 
     this.model = model;
+    this.state = state;
+    this.categoryColor = CATEGORY_COLORS[this.state.categoryId];
 
     this.render();
   }
@@ -126,7 +128,7 @@ export default class AccountHistoryStatisticsLineChart {
       if (!firstMonth) return;
       this.drawText({
         fontWeight: 500,
-        color: COLORS.PRIMARY2,
+        color: this.categoryColor,
         value: year,
         x: this.xStart + dc * index - 8,
         y: this.gridYStart + this.gridHeight + 24,
@@ -143,7 +145,7 @@ export default class AccountHistoryStatisticsLineChart {
       const currMonthData = categoryMonthData.find(v => v.month === month);
       const x = this.xStart + this.ctx.lineWidth + this.dx * index;
       const y = this.gridYStart + this.gridHeight * (currMonthData ? 1 - currMonthData.total / maxYValue : 1);
-      this.drawDot({x, y, radius: 4});
+      this.drawDot({x, y, radius: 4, color: this.categoryColor});
       this.drawText({
         fontWeight: 700,
         color: COLORS.BODY,
@@ -175,18 +177,18 @@ export default class AccountHistoryStatisticsLineChart {
     const animateDrawingTraces = () => {
       const [fromX, fromY] = dotTraces[i];
       const [toX, toY] = dotTraces[i + 1];
-          this.drawStrokePath({
+      this.drawStrokePath({
         color: this.categoryColor,
-            drawPath: () => {
-              this.ctx.moveTo(fromX, fromY);
+        drawPath: () => {
+          this.ctx.moveTo(fromX, fromY);
           this.ctx.lineTo(toX, toY);
-            },
-          });
+        },
+      });
       i += 1;
       if (i < dotTraces.length - 1) {
         requestAnimationFrame(animateDrawingTraces);
       }
-        };
+    };
     animateDrawingTraces();
   }
 
