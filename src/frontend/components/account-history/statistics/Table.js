@@ -13,9 +13,7 @@ export default class AccountHistoryStatisticsTable {
   }
 
   render() {
-    const {
-      categories: {expenditure},
-    } = this.model.getData();
+    const {expenditure} = this.model.get('categories');
     new TableHeader({$parent: this.$target, model: this.model});
     expenditure.forEach(state => {
       new TableRow({$parent: this.$target, model: this.model, state});

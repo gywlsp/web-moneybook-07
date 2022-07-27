@@ -18,8 +18,11 @@ export default class AccountHistoryStatisticsDetailPanel {
   render() {
     const {categoryId} = GlobalStore.get('statisticsState');
     if (categoryId === null) return;
+
+    this.$target.innerHTML = '';
     this.$target.classList.remove('hidden');
-    const {historyByCategory} = this.model.getData();
+
+    const historyByCategory = this.model.get('historyByCategory');
     new AccountHistoryStatisticsLineChart({$parent: this.$target, model: this.model, state: {categoryId}});
     historyByCategory?.dates
       ?.map(date => ({...date, totalExpenditure: 0}))

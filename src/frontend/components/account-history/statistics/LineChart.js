@@ -40,9 +40,7 @@ export default class AccountHistoryStatisticsLineChart {
 
   drawTitle() {
     const {categoryId} = GlobalStore.get('statisticsState');
-    const {
-      categories: {expenditure},
-    } = this.model.getData();
+    const {expenditure} = this.model.get('categories');
     const {title: categoryTitle} = expenditure.find(v => v.id === categoryId);
     this.drawText({fontSize: '24px', value: `${categoryTitle} 카테고리 소비 추이`, x: this.xStart, y: this.yStart});
   }
@@ -137,7 +135,7 @@ export default class AccountHistoryStatisticsLineChart {
   }
 
   drawGraph() {
-    const {categoryRecentMonthly} = this.model.getData();
+    const categoryRecentMonthly = this.model.get('categoryRecentMonthly');
     const maxTotal = Math.max(...categoryRecentMonthly.map(({total}) => total));
     const digit = String(maxTotal).length - 1;
     const maxYValue = ceil(maxTotal, digit);

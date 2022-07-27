@@ -27,9 +27,7 @@ export default class AccountHistoryStatisticsDonutChart {
   }
 
   draw() {
-    const {
-      categories: {expenditure},
-    } = this.model.getData();
+    const {expenditure} = this.model.get('categories');
 
     const totalPercentage = expenditure.reduce((acc, {percentage}) => acc + percentage, 0);
 
