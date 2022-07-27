@@ -10,10 +10,11 @@ export default class AccountHistoryDetailModel extends Observer {
     super();
     GlobalStore.subscribe('globalState', () => {
       if (Router.get('pathname') !== '/') return;
-      this.initData.apply(this);
+      this.setData.apply(this);
     });
     GlobalStore.subscribe('detailState', this.onHistoryMutate.bind(this));
     this.initData();
+    this.setData();
   }
 
   fetchHistory() {
@@ -47,7 +48,9 @@ export default class AccountHistoryDetailModel extends Observer {
     this.init('history', {totalDetailCnt: 0, totalIncome: 0, totalExpenditure: 0, dates: []});
     this.init('categories', {income: [], expenditure: []});
     this.init('payments', []);
+  }
 
+  setData() {
     Promise.all([this.fetchHistory(), this.fetchCategories(), this.fetchPayments()]).then(values => {
       const [history, categories, payments] = values;
       this.set('categories', categories);

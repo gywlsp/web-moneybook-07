@@ -11,7 +11,7 @@ export default class AccountHistoryStatisticsModel extends Observer {
     GlobalStore.subscribe('globalState', () => {
       if (Router.get('pathname') !== '/statistics') return;
       GlobalStore.set('statisticsState', {categoryId: null});
-      this.initData.apply(this);
+      this.setData.apply(this);
     });
     GlobalStore.subscribe('statisticsState', () => {
       if (Router.get('pathname') !== '/statistics' || GlobalStore.get('statisticsState').categoryId === null) return;
@@ -22,6 +22,7 @@ export default class AccountHistoryStatisticsModel extends Observer {
       GlobalStore.set('statisticsState', {categoryId: null});
     });
     this.initData();
+    this.setData();
   }
 
   fetchCategories() {
@@ -58,10 +59,13 @@ export default class AccountHistoryStatisticsModel extends Observer {
     });
   }
 
-  async initData() {
+  initData() {
     this.init('categories', {expenditure: []});
     this.init('categoryRecentMonthly', []);
     this.init('historyByCategory', {});
+  }
+
+  async setData() {
     const {expenditure} = await this.fetchCategories();
     this.set('categories', {expenditure: expenditure.sort((a, b) => b.percentage - a.percentage)});
   }
