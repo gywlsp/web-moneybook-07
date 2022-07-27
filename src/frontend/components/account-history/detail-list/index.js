@@ -51,7 +51,7 @@ export default class AccountHistoryDetailList {
       setDefaultValue($dateStringInput, getNumString(dateString));
       setDefaultValue($categorySelect, category.id);
       setDefaultValue($descriptionInput, description);
-      setDefaultValue($paymentSelect, payment.id);
+      setDefaultValue($paymentSelect, payment.id || '');
       setDefaultValue($priceInput, price.toLocaleString());
 
       updateCategoryTypeToggleBtn(category.type);
