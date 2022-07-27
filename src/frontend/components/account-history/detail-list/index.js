@@ -63,6 +63,8 @@ export default class AccountHistoryDetailList {
       });
       $categorySelect.dispatchEvent(event);
       $paymentSelect.dispatchEvent(event);
+
+      window.scrollTo({top: 0, behavior: 'smooth'});
     });
   }
 
