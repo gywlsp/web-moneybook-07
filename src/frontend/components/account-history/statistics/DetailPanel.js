@@ -10,6 +10,7 @@ export default class AccountHistoryStatisticsDetailPanel {
     $parent.appendChild(this.$target);
 
     this.model = model;
+    this.model.subscribe('historyByCategory', this.render.bind(this));
 
     this.render();
   }
