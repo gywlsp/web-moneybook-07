@@ -59,8 +59,8 @@ export default class AccountHistoryStatisticsModel extends Observer {
 
   async mutateCategory() {
     Promise.all([this.fetchHistory(), this.fetchCategory()]).then(values => {
-      const [history, categoryMonthData] = values;
-      this.data = { ...this.data, history, categoryMonthData };
+      const [historyByCategory, categoryRecentMonthly] = values;
+      this.data = {...this.data, historyByCategory, categoryRecentMonthly};
       this.notify();
     });
   }
