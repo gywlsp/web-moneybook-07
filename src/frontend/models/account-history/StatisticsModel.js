@@ -21,14 +21,7 @@ export default class AccountHistoryStatisticsModel extends Observer {
       if (Router.get('pathname') === '/statistics') return;
       GlobalStore.set('statisticsState', {categoryId: null});
     });
-    this.data = {
-      categories: {expenditure: []},
-    };
     this.initData();
-  }
-
-  getData() {
-    return this.data;
   }
 
   fetchCategories() {
@@ -58,16 +51,18 @@ export default class AccountHistoryStatisticsModel extends Observer {
   }
 
   async onCategoryMutate() {
-    Promise.all([this.fetchHistory(), this.fetchCategory()]).then(values => {
-      const [historyByCategory, categoryRecentMonthly] = values;
-      this.data = {...this.data, historyByCategory, categoryRecentMonthly};
-      this.notify();
+    Promise.all([this.fetchCategory(), this.fetchHistory()]).then(values => {
+      const [categoryRecentMonthly, historyByCategory] = values;
+      this.set('categoryRecentMonthly', categoryRecentMonthly);
+      this.set('historyByCategory', historyByCategory);
     });
   }
 
   async initData() {
+    this.init('categories', {expenditure: []});
+    this.init('categoryRecentMonthly', []);
+    this.init('historyByCategory', {});
     const {expenditure} = await this.fetchCategories();
-    this.data = {...this.data, categories: {expenditure: expenditure.sort((a, b) => b.percentage - a.percentage)}};
-    this.notify();
+    this.set('categories', {expenditure: expenditure.sort((a, b) => b.percentage - a.percentage)});
   }
 }
