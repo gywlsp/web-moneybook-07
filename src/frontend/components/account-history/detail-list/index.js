@@ -18,25 +18,13 @@ export default class AccountHistoryDetailList {
   }
 
   handleEvent() {
-    const $detailAdder = document.querySelector('.history-detail-adder');
-    const $dateStringInput = $detailAdder.querySelector('input[name="dateString"]');
-    const $categorySelect = $detailAdder.querySelector('select[name="category"]');
-    const $descriptionInput = $detailAdder.querySelector('input[name="description"]');
-    const $paymentSelect = $detailAdder.querySelector('select[name="payment"]');
-    const $priceInput = $detailAdder.querySelector('input[name="price"]');
-    const {dates} = this.model.get('history');
-
-    const setDefaultValue = ($elem, defaultValue) => {
-      $elem.dataset.defaultValue = defaultValue;
-      $elem.value = defaultValue;
-    };
-
     this.$target.addEventListener('click', e => {
       const $detailRow = e.target.closest('.history-detail-list-by-date-detail');
       if (!$detailRow) return;
       const {id} = $detailRow.dataset;
       const detailId = +id;
       let detailIndex = -1;
+      const {dates} = this.model.get('history');
       const dateIndex = dates.findIndex(({details}) => {
         const dIndex = details.findIndex(v => v.id === detailId);
         if (dIndex === -1) return false;
@@ -47,17 +35,14 @@ export default class AccountHistoryDetailList {
       const {dateString, details} = dates[dateIndex];
       const detail = details[detailIndex];
       const {category, description, payment, price} = detail;
-      $detailAdder.dataset.id = detailId;
-      setDefaultValue($dateStringInput, getNumString(dateString));
-      setDefaultValue($categorySelect, category.id);
-      setDefaultValue($descriptionInput, description);
-      setDefaultValue($paymentSelect, payment.id || '');
-      setDefaultValue($priceInput, price.toLocaleString());
 
-      updateCategoryTypeToggleBtn(category.type);
-
-      const event = new Event('input', {
-        bubbles: true,
+      setHistoryDetailAdderForm({
+        id: detailId,
+        dateString: getNumString(dateString),
+        categoryId: category.id,
+        description,
+        paymentId: payment.id || '',
+        price: price.toLocaleString(),
       });
       $categorySelect.dispatchEvent(event);
       $paymentSelect.dispatchEvent(event);
