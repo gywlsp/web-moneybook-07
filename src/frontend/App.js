@@ -10,6 +10,7 @@ import GlobalHeader from './components/GlobalHeader.js';
 import AccountHistoryDetailView from './views/account-history/DetailView.js';
 import AccountHistoryCalendarView from './views/account-history/CalendarView.js';
 import AccountHistoryStatisticsView from './views/account-history/StatisticsView.js';
+import LoadingIndicator from './components/LoadingIndicator.js';
 
 const TAB_DATA = {
   '/': {
@@ -27,7 +28,7 @@ const TAB_DATA = {
 };
 
 export default class App {
-  constructor({ $parent }) {
+  constructor({$parent}) {
     this.$target = document.createElement('div');
     this.$target.id = 'app';
     $parent.appendChild(this.$target);
@@ -37,7 +38,8 @@ export default class App {
   }
 
   render() {
-    new GlobalHeader({ $parent: this.$target });
+    new GlobalHeader({$parent: this.$target});
+    new LoadingIndicator({$parent: this.$target});
     this.renderView();
   }
 
@@ -45,10 +47,10 @@ export default class App {
     this.$view?.remove();
 
     const pathname = Router.get('pathname');
-    const { Model, View } = TAB_DATA[pathname];
+    const {Model, View} = TAB_DATA[pathname];
 
     const model = new Model();
-    const view = new View({ $parent: this.$target, model });
+    const view = new View({$parent: this.$target, model});
 
     this.$view = view.$target;
   }
