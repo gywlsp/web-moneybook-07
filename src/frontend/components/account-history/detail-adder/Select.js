@@ -16,6 +16,9 @@ export default class AccountHistoryDetailAdderSelect {
     if (this.state.name === 'payment') {
       this.model.subscribe('payments', this.render.bind(this));
     }
+    if (this.state.name === 'category') {
+      this.model.subscribe('categories', this.render.bind(this));
+    }
 
     this.render();
     this.handleEvent();
@@ -64,9 +67,11 @@ export default class AccountHistoryDetailAdderSelect {
     });
 
     this.$target.addEventListener('input', e => {
-      const {value} = e.target;
+      const {tagName, value} = e.target;
+      if (tagName === 'INPUT') return;
       const $selectLabel = this.$target.querySelector('.select-selected');
-      $selectLabel.style.color = COLORS.TITLE_ACTIVE;
+      $selectLabel.style.color = value ? COLORS.TITLE_ACTIVE : COLORS.LABEL;
+      if (!value) $selectLabel.innerText = '선택하세요';
       closeSelect();
       [...this.$target.querySelectorAll('div.select-item')].forEach($elem => {
         const {optionValue, optionTitle} = $elem.dataset;
