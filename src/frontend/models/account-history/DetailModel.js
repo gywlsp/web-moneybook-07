@@ -4,6 +4,7 @@ import Router from '../../Router.js';
 import GlobalStore from '../../stores/global.js';
 import AccountHistoryAPI from '../../api/history.js';
 import {padZero} from '../../utils/date.js';
+import {hideLoadingIndicator, showLoadingIndicator} from '../../utils/loading.js';
 
 export default class AccountHistoryDetailModel extends Observer {
   constructor() {
@@ -51,11 +52,13 @@ export default class AccountHistoryDetailModel extends Observer {
   }
 
   setData() {
+    showLoadingIndicator();
     Promise.all([this.fetchHistory(), this.fetchCategories(), this.fetchPayments()]).then(values => {
       const [history, categories, payments] = values;
       this.set('categories', categories);
       this.set('payments', payments);
       this.set('history', history);
+      hideLoadingIndicator();
     });
   }
 }

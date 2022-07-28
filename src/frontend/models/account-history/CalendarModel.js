@@ -4,6 +4,7 @@ import Router from '../../Router.js';
 import GlobalStore from '../../stores/global.js';
 import AccountHistoryAPI from '../../api/history.js';
 import {padZero} from '../../utils/date.js';
+import {hideLoadingIndicator, showLoadingIndicator} from '../../utils/loading.js';
 
 export default class AccountHistoryCalendarModel extends Observer {
   constructor() {
@@ -26,7 +27,9 @@ export default class AccountHistoryCalendarModel extends Observer {
   }
 
   async setData() {
+    showLoadingIndicator();
     const history = await this.fetchHistory();
     this.set('history', history);
+    hideLoadingIndicator();
   }
 }

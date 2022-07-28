@@ -4,6 +4,7 @@ import Router from '../../Router.js';
 import GlobalStore from '../../stores/global.js';
 import AccountHistoryAPI from '../../api/history.js';
 import {padZero} from '../../utils/date.js';
+import {hideLoadingIndicator, showLoadingIndicator} from '../../utils/loading.js';
 
 export default class AccountHistoryStatisticsModel extends Observer {
   constructor() {
@@ -66,7 +67,9 @@ export default class AccountHistoryStatisticsModel extends Observer {
   }
 
   async setData() {
+    showLoadingIndicator();
     const {expenditure} = await this.fetchCategories();
     this.set('categories', {expenditure: expenditure.sort((a, b) => b.percentage - a.percentage)});
+    hideLoadingIndicator();
   }
 }
