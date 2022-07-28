@@ -133,7 +133,7 @@ p.year-view {
   cursor: pointer;
 }
 
-.scroll-top-button span {
+.scroll-top-button small {
   font-family: 'BMDOHYEON';
   color: var(--body-color)
 }

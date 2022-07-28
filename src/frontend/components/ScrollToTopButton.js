@@ -4,7 +4,7 @@ import throttle from "../utils/event.js"
 
 export default class ScrollToTopbutton {
     constructor({ $parent }) {
-        this.$target = document.createElement('div');
+        this.$target = document.createElement('button');
         this.$target.classList.add("scroll-top-button")
 
         $parent.appendChild(this.$target);
@@ -38,7 +38,7 @@ export default class ScrollToTopbutton {
     render() {
         this.$target.innerHTML = `
         <img src=${UpIcon} alt='up-icon'/>
-        <span>맨위로</span>
+        <small>맨위로</small>
         <img src=${CatImage} alt='cat-image'/>
     `;
     }
