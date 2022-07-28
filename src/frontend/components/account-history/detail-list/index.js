@@ -5,7 +5,7 @@ import AccountHistoryDetailListHeader from './header/index.js';
 import { updateCategoryTypeToggleBtn } from '../../../utils/category.js';
 import { getNumString } from '../../../utils/string.js';
 import { setHistoryDetailAdderForm, dispatchInputEventToAdderSelects } from '../../../utils/history.js';
-import AccountHistoryDetailNoResult from './NoResult.js';
+import AccountHistoryNoResult from '../../NoResult.js';
 
 export default class AccountHistoryDetailList {
   constructor({ $parent, model }) {
@@ -60,7 +60,7 @@ export default class AccountHistoryDetailList {
     new AccountHistoryDetailListHeader({ $parent: this.$target, model: this.model });
     const { dates } = this.model.get('history');
     if (!dates.length) {
-      new AccountHistoryDetailNoResult({ $parent: this.$target });
+      new AccountHistoryNoResult({ $parent: this.$target });
       return
     }
     dates.forEach(date => {
