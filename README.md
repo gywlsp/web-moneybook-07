@@ -8,7 +8,7 @@
   </a>
   <h3 align="center">Moneybook</h3>
   <p align="center">
-    우아한테크캠프 5기 3주차 미션 - 가계부
+    우아한테크캠프 5기 3~4주차 미션 - 가계부
     <br><br>
     <a href="http://52.78.145.140:3000/">👀 View Demo</a>
     <br>
@@ -20,7 +20,7 @@
 ## About The Project
 <img width="1431" alt="image" src="https://user-images.githubusercontent.com/6129764/181509172-baff06d8-76be-432d-b36f-394898c65149.png">
 
-2022 우아한테크캠프 5기 3주차 미션 - 가계부 입니다.
+2022 우아한테크캠프 5기 3~4주차 미션 - 가계부 입니다.
 
 프로젝트 진행기간 총 10일 중 9일을 **pair programming**으로 개발했습니다.
 
