@@ -44,8 +44,8 @@ export default class AccountHistoryDetailList {
         paymentId: payment.id || '',
         price: price.toLocaleString(),
       });
-      $categorySelect.dispatchEvent(event);
-      $paymentSelect.dispatchEvent(event);
+      updateCategoryTypeToggleBtn(category.type);
+      dispatchInputEventToAdderSelects();
 
       window.scrollTo({top: 0, behavior: 'smooth'});
     });
