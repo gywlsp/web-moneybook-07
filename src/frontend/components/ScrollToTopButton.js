@@ -1,5 +1,6 @@
 import CatImage from '../assets/cat.png';
 import UpIcon from '../assets/up.svg'
+import throttle from "../utils/event.js"
 
 export default class ScrollToTopbutton {
     constructor({ $parent }) {
@@ -19,13 +20,14 @@ export default class ScrollToTopbutton {
 
             if ((rootElement.scrollTop / scrollTotal) > 0.10) {
                 this.$target.classList.add('show-button')
-            } else {
-                this.$target.classList.remove('show-button')
+                return
             }
+
+            this.$target.classList.remove('show-button')
         }
 
-        const onScroll = throttle(handleScroll, 100);
-
+        const DELAY = 100
+        const onScroll = throttle(handleScroll, DELAY);
         document.addEventListener('scroll', onScroll)
 
         this.$target.addEventListener("click", () => {
