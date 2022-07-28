@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable-next-line import/prefer-default-export */
+import {getTodayDateString} from './date.js';
 
 export const getHistoryDetailAdderSelects = ($element = document) => {
   const $categorySelect = $element.querySelector('select[name="category"]');
@@ -33,4 +36,38 @@ export const setHistoryDetailAdderForm = ({id, dateString, categoryId, descripti
   initValue($descriptionInput, description);
   initValue($paymentSelect, paymentId);
   initValue($priceInput, price);
+};
+
+const removeValue = $elem => {
+  delete $elem.dataset.defaultValue;
+  $elem.value = '';
+};
+
+export const dispatchInputEvent = $element => {
+  const event = new Event('input', {
+    bubbles: true,
+  });
+  $element.dispatchEvent(event);
+};
+
+export const dispatchInputEventToAdderSelects = () => {
+  const event = new Event('input', {
+    bubbles: true,
+  });
+  const {$categorySelect, $paymentSelect} = getHistoryDetailAdderSelects();
+  $categorySelect.dispatchEvent(event);
+  $paymentSelect.dispatchEvent(event);
+};
+
+export const resetHistoryDetailAdderForm = () => {
+  const $historyDetailAdder = document.querySelector('.history-detail-adder');
+  delete $historyDetailAdder.dataset.id;
+  const adderItems = getHistoryDetailAdderItems($historyDetailAdder);
+  Object.values(adderItems).forEach(adderItem => {
+    delete adderItem.value;
+    removeValue(adderItem);
+  });
+  const {$dateStringInput} = adderItems;
+  $dateStringInput.value = getTodayDateString({withDot: false});
+  dispatchInputEventToAdderSelects();
 };

@@ -35,6 +35,7 @@ export default class AccountHistoryDetailAdder {
       showLoadingIndicator();
       await submit();
       await this.model.onHistoryMutate();
+      resetHistoryDetailAdderForm();
       hideLoadingIndicator();
     } catch (err) {
       alert(`수입/지출 내역 ${id === undefined ? '추가' : '수정'} 요청이 실패했습니다.`);
