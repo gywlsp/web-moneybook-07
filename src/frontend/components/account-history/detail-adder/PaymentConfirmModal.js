@@ -1,4 +1,5 @@
 import AccountHistoryAPI from '../../../api/history.js';
+import {showLoadingIndicator, hideLoadingIndicator} from '../../../utils/loading.js';
 
 export default class PaymentConfirmModal {
   constructor({$parent, model}) {
@@ -17,8 +18,10 @@ export default class PaymentConfirmModal {
     const submit = () =>
       id === undefined ? AccountHistoryAPI.postPayment({title: value}) : AccountHistoryAPI.deletePayment(id);
     try {
+      showLoadingIndicator();
       await submit();
       await this.model.onPaymentMutate();
+      hideLoadingIndicator();
       this.$target.classList.add('hidden');
     } catch (err) {
       alert(`결제수단 ${id === undefined ? '추가' : '삭제'} 요청이 실패했습니다.`);

@@ -5,6 +5,7 @@ import {updateCategoryTypeToggleBtn} from '../../../utils/category.js';
 
 import AccountHistoryDetailAdderItem from './Item.js';
 import AccountHistoryDetailAdderSubmitBtn from './SubmitBtn.js';
+import {showLoadingIndicator, hideLoadingIndicator} from '../../../utils/loading.js';
 
 const ADDER_ITEM_DATA = [
   {label: '일자', name: 'dateString', itemType: 'input'},
@@ -31,8 +32,10 @@ export default class AccountHistoryDetailAdder {
     const submit = () =>
       id === undefined ? AccountHistoryAPI.post(this.formData) : AccountHistoryAPI.put(id, this.formData);
     try {
+      showLoadingIndicator();
       await submit();
-      this.model.onHistoryMutate();
+      await this.model.onHistoryMutate();
+      hideLoadingIndicator();
     } catch (err) {
       alert(`수입/지출 내역 ${id === undefined ? '추가' : '수정'} 요청이 실패했습니다.`);
     }
