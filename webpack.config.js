@@ -36,5 +36,10 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new HtmlWebpackPlugin(
+    {
+      title: '우아한 가계부',
+      favicon: path.resolve(__dirname, "src/frontend/assets/favicon.ico"),
+    }
+  )],
 }
