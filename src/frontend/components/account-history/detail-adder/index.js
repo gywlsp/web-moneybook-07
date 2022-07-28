@@ -68,6 +68,10 @@ export default class AccountHistoryDetailAdder {
       paymentId === defaultPaymentId &&
       price === defaultPrice;
 
+    this.$target.addEventListener('input', e => {
+      if (e.target.id === 'confirm-modal-input') {
+        return;
+      }
       const {$dateStringInput, $categorySelect, $descriptionInput, $paymentSelect, $priceInput} =
         getHistoryDetailAdderItems(this.$target);
       const {
