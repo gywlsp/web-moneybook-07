@@ -53,10 +53,12 @@ export default class AccountHistoryStatisticsModel extends Observer {
   }
 
   async onCategoryMutate() {
+    showLoadingIndicator();
     Promise.all([this.fetchCategory(), this.fetchHistory()]).then(values => {
       const [categoryRecentMonthly, historyByCategory] = values;
       this.set('categoryRecentMonthly', categoryRecentMonthly);
       this.set('historyByCategory', historyByCategory);
+      hideLoadingIndicator();
     });
   }
 
