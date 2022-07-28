@@ -127,7 +127,7 @@ export default class AccountHistoryDetailAdder {
       const dateString = addDot($dateStringInput.value);
       const categoryId = +$categorySelect.value;
       const description = $descriptionInput.value;
-      const paymentId = +$paymentSelect.value;
+      const paymentId = +$paymentSelect.value || null;
       const price = +getNumString($priceInput.value);
 
       this.formData = {
