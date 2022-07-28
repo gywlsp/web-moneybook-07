@@ -42,13 +42,6 @@ export default class AccountHistoryDetailAdder {
   }
 
   handleEvent() {
-    const $submitBtn = this.$target.querySelector('.history-detail-adder-submitBtn');
-    const $dateStringInput = this.$target.querySelector('input[name="dateString"]');
-    const $categorySelect = this.$target.querySelector('select[name="category"]');
-    const $descriptionInput = this.$target.querySelector('input[name="description"]');
-    const $paymentSelect = this.$target.querySelector('select[name="payment"]');
-    const $priceInput = this.$target.querySelector('input[name="price"]');
-
     const isFormValid = ({dateString, categoryId, description, paymentId, price}) =>
       dateString.length === 8 &&
       categoryId &&
@@ -74,7 +67,8 @@ export default class AccountHistoryDetailAdder {
       paymentId === defaultPaymentId &&
       price === defaultPrice;
 
-    this.$target.addEventListener('input', () => {
+      const {$dateStringInput, $categorySelect, $descriptionInput, $paymentSelect, $priceInput} =
+        getHistoryDetailAdderItems(this.$target);
       const {
         value: dateString,
         dataset: {defaultValue: defaultDateString},
@@ -96,6 +90,7 @@ export default class AccountHistoryDetailAdder {
         dataset: {defaultValue: defaultPrice},
       } = $priceInput;
 
+      const $submitBtn = this.$target.querySelector('.history-detail-adder-submitBtn');
       $submitBtn.disabled =
         !isFormValid({dateString, categoryId, description, paymentId, price}) ||
         (this.$target.dataset.id &&
@@ -126,6 +121,8 @@ export default class AccountHistoryDetailAdder {
       const $submitBtn = e.target.closest('.history-detail-adder-submitBtn');
       if (!$submitBtn) return;
 
+      const {$dateStringInput, $categorySelect, $descriptionInput, $paymentSelect, $priceInput} =
+        getHistoryDetailAdderItems(this.$target);
       const dateString = addDot($dateStringInput.value);
       const categoryId = +$categorySelect.value;
       const description = $descriptionInput.value;
