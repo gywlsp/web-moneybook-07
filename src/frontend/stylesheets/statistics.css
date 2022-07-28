@@ -67,15 +67,6 @@
   margin-right: 0.8rem;
 }
 
-.history-statistics-no-result {
-  display: flex;
-  align-items: center;
-  height: 32rem;
-  margin: auto;
-  font-size: 1.4rem;
-}
-
-
 .history-statistics-detail-panel {
   display: flex;
   flex-direction: column;

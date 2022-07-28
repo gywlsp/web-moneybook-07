@@ -1,9 +1,9 @@
-import GlobalStore from '../../../stores/global.js';
+import GlobalStore from '../stores/global.js';
 
-export default class AccountHistoryStatisticsNoResult {
+export default class AccountHistoryNoResult {
     constructor({ $parent }) {
         this.$target = document.createElement('p');
-        this.$target.classList.add('history-statistics-no-result');
+        this.$target.classList.add('no-result');
 
         $parent.appendChild(this.$target);
         this.render();
