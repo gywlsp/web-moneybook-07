@@ -153,3 +153,12 @@ p.year-view {
   opacity: 1;
   transform: translateY(0)
 }
+
+.no-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32rem;
+  margin: auto;
+  font-size: 1.4rem;
+}

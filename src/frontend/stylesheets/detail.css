@@ -174,15 +174,6 @@ button.select-item {
   padding: 4.8rem 2.8rem;
 }
 
-.history-detail-no-result {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32rem;
-  margin: auto;
-  font-size: 1.4rem;
-}
-
 .history-detail-list-header {
   display: flex;
   align-items: center;
