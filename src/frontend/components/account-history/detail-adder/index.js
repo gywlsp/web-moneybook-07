@@ -120,7 +120,7 @@ export default class AccountHistoryDetailAdder {
       }
 
       const $submitBtn = e.target.closest('.history-detail-adder-submitBtn');
-      if (!$submitBtn) return;
+      if (!$submitBtn || $submitBtn.disabled) return;
 
       const {$dateStringInput, $categorySelect, $descriptionInput, $paymentSelect, $priceInput} =
         getHistoryDetailAdderItems(this.$target);
