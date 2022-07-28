@@ -9,8 +9,10 @@
   <h3 align="center">Moneybook</h3>
   <p align="center">
     우아한테크캠프 5기 3주차 미션 - 가계부
+    <br><br>
+    <a href="http://52.78.145.140:3000/">👀 View Demo</a>
     <br>
-    <a href="http://52.78.145.140:3000/">View Demo</a>
+    <a href="https://github.com/woowa-techcamp-2022/web-moneybook-07/wiki">🔗 Project Wiki</a>
   </p>
 </div>
 
