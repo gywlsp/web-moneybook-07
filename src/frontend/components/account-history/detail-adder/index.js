@@ -6,6 +6,7 @@ import {updateCategoryTypeToggleBtn} from '../../../utils/category.js';
 import AccountHistoryDetailAdderItem from './Item.js';
 import AccountHistoryDetailAdderSubmitBtn from './SubmitBtn.js';
 import {showLoadingIndicator, hideLoadingIndicator} from '../../../utils/loading.js';
+import {getHistoryDetailAdderItems, resetHistoryDetailAdderForm} from '../../../utils/history.js';
 
 const ADDER_ITEM_DATA = [
   {label: '일자', name: 'dateString', itemType: 'input'},
@@ -44,11 +45,7 @@ export default class AccountHistoryDetailAdder {
 
   handleEvent() {
     const isFormValid = ({dateString, categoryId, description, paymentId, price}) =>
-      dateString.length === 8 &&
-      categoryId &&
-      description &&
-      ($paymentSelect.dataset.defaultValue === '' || paymentId) &&
-      price;
+      dateString.length === 8 && categoryId && description && paymentId && price;
 
     const isFormNotChanged = ({
       dateString,
@@ -97,7 +94,13 @@ export default class AccountHistoryDetailAdder {
 
       const $submitBtn = this.$target.querySelector('.history-detail-adder-submitBtn');
       $submitBtn.disabled =
-        !isFormValid({dateString, categoryId, description, paymentId, price}) ||
+        !isFormValid({
+          dateString,
+          categoryId,
+          description,
+          paymentId: $paymentSelect.dataset.defaultValue === '' || paymentId,
+          price,
+        }) ||
         (this.$target.dataset.id &&
           isFormNotChanged({
             dateString,
