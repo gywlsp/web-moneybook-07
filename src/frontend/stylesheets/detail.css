@@ -19,25 +19,25 @@
   border-left: 1px solid var(--placeholder-color);
 }
 
-.history-detail-adder-item > label {
+.history-detail-adder-item>label {
   color: var(--primary-color-3);
   font-weight: 700;
   font-size: 1.2rem;
   margin-bottom: 0.4rem;
 }
 
-.history-detail-adder-input-wrapper > input {
+.history-detail-adder-input-wrapper>input {
   border: none;
   font-size: 1.6rem;
   background: none;
 }
 
-.history-detail-adder-input-wrapper > input[name='dateString'],
-.history-detail-adder-input-wrapper > input[name='price'] {
+.history-detail-adder-input-wrapper>input[name='dateString'],
+.history-detail-adder-input-wrapper>input[name='price'] {
   width: 8rem;
 }
 
-.history-detail-adder-input-wrapper > input[name='description'] {
+.history-detail-adder-input-wrapper>input[name='description'] {
   width: 18.8rem;
 }
 
@@ -52,17 +52,17 @@
   margin-right: 1.2rem;
 }
 
-.category-type-toggleBtn > img {
+.category-type-toggleBtn>img {
   width: 1.2rem;
   height: 1.2rem;
 }
 
-.history-detail-adder-input-wrapper > p {
+.history-detail-adder-input-wrapper>p {
   margin-left: 1.2rem;
   font-size: 1.6rem;
 }
 
-.history-detail-adder-input-wrapper > input[name='price'] {
+.history-detail-adder-input-wrapper>input[name='price'] {
   text-align: right;
 }
 
@@ -157,7 +157,7 @@ button.select-item {
   border-radius: 1rem;
 }
 
-.history-detail-adder-submitBtn > img {
+.history-detail-adder-submitBtn>img {
   filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(76deg) brightness(103%) contrast(101%);
 }
 
@@ -165,13 +165,22 @@ button.select-item {
   background: none;
 }
 
-.history-detail-adder-submitBtn:disabled > img {
+.history-detail-adder-submitBtn:disabled>img {
   filter: invert(65%) sepia(60%) saturate(519%) hue-rotate(129deg) brightness(89%) contrast(86%);
 }
 
 .history-detail-list-wrapper {
   width: 100%;
   padding: 4.8rem 2.8rem;
+}
+
+.history-detail-no-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32rem;
+  margin: auto;
+  font-size: 1.4rem;
 }
 
 .history-detail-list-header {
@@ -191,16 +200,16 @@ button.select-item {
   font-size: 1.8rem;
 }
 
-.history-detail-list-filter-item > input {
+.history-detail-list-filter-item>input {
   display: none;
 }
 
-.history-detail-list-filter-item > label {
+.history-detail-list-filter-item>label {
   display: flex;
   align-items: center;
 }
 
-.history-detail-list-filter-item > label > span {
+.history-detail-list-filter-item>label>span {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,17 +221,17 @@ button.select-item {
   border-radius: 0.5rem;
 }
 
-.history-detail-list-filter-item > label > span.checked {
+.history-detail-list-filter-item>label>span.checked {
   background-color: var(--primary-color-1);
 }
 
-.history-detail-list-filter-item > label > span > img {
+.history-detail-list-filter-item>label>span>img {
   filter: invert(65%) sepia(60%) saturate(519%) hue-rotate(129deg) brightness(89%) contrast(86%);
   width: 1.4rem;
   height: 1.4rem;
 }
 
-.history-detail-list-filter-item > label > span.checked > img {
+.history-detail-list-filter-item>label>span.checked>img {
   filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(76deg) brightness(103%) contrast(101%);
 }
 
@@ -338,15 +347,15 @@ input::placeholder {
   justify-content: space-between;
 }
 
-.confirm-modal-btns-wrapper > button {
+.confirm-modal-btns-wrapper>button {
   font-size: 1.6rem;
   color: var(--label-color);
 }
 
-.confirm-modal-btns-wrapper > .delete-btn {
+.confirm-modal-btns-wrapper>.delete-btn {
   color: var(--danger-red-color);
 }
 
-.confirm-modal-btns-wrapper > .add-btn {
+.confirm-modal-btns-wrapper>.add-btn {
   color: var(--primary-color-3);
 }
