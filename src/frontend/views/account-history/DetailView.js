@@ -10,13 +10,11 @@ export default class AccountHistoryDetailView {
     $parent.appendChild(this.$target);
 
     this.model = model;
-    this.model.subscribe('history', this.render.bind(this));
 
     this.render();
   }
 
   render() {
-    this.$target.innerHTML = '';
     new AccountHistoryDetailAdder({$parent: this.$target, model: this.model});
     new AccountHistoryDetailList({$parent: this.$target, model: this.model});
   }

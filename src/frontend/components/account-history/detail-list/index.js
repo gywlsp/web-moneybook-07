@@ -4,6 +4,7 @@ import AccountHistoryDetailListHeader from './header/index.js';
 
 import {updateCategoryTypeToggleBtn} from '../../../utils/category.js';
 import {getNumString} from '../../../utils/string.js';
+import {setHistoryDetailAdderForm, dispatchInputEventToAdderSelects} from '../../../utils/history.js';
 
 export default class AccountHistoryDetailList {
   constructor({$parent, model}) {
@@ -12,6 +13,8 @@ export default class AccountHistoryDetailList {
 
     $parent.appendChild(this.$target);
     this.model = model;
+    this.model.subscribe('payments', this.render.bind(this));
+    this.model.subscribe('history', this.render.bind(this));
 
     this.render();
     this.handleEvent();
@@ -52,6 +55,7 @@ export default class AccountHistoryDetailList {
   }
 
   render() {
+    this.$target.innerHTML = '';
     new AccountHistoryDetailListHeader({$parent: this.$target, model: this.model});
     const {dates} = this.model.get('history');
     dates.forEach(date => {
