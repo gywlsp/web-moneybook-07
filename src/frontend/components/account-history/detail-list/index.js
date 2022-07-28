@@ -4,6 +4,7 @@ import AccountHistoryDetailListHeader from './header/index.js';
 
 import {updateCategoryTypeToggleBtn} from '../../../utils/category.js';
 import {getNumString} from '../../../utils/string.js';
+import {setHistoryDetailAdderForm, dispatchInputEventToAdderSelects} from '../../../utils/history.js';
 
 export default class AccountHistoryDetailList {
   constructor({$parent, model}) {
@@ -12,31 +13,21 @@ export default class AccountHistoryDetailList {
 
     $parent.appendChild(this.$target);
     this.model = model;
+    this.model.subscribe('payments', this.render.bind(this));
+    this.model.subscribe('history', this.render.bind(this));
 
     this.render();
     this.handleEvent();
   }
 
   handleEvent() {
-    const $detailAdder = document.querySelector('.history-detail-adder');
-    const $dateStringInput = $detailAdder.querySelector('input[name="dateString"]');
-    const $categorySelect = $detailAdder.querySelector('select[name="category"]');
-    const $descriptionInput = $detailAdder.querySelector('input[name="description"]');
-    const $paymentSelect = $detailAdder.querySelector('select[name="payment"]');
-    const $priceInput = $detailAdder.querySelector('input[name="price"]');
-    const {dates} = this.model.get('history');
-
-    const setDefaultValue = ($elem, defaultValue) => {
-      $elem.dataset.defaultValue = defaultValue;
-      $elem.value = defaultValue;
-    };
-
     this.$target.addEventListener('click', e => {
       const $detailRow = e.target.closest('.history-detail-list-by-date-detail');
       if (!$detailRow) return;
       const {id} = $detailRow.dataset;
       const detailId = +id;
       let detailIndex = -1;
+      const {dates} = this.model.get('history');
       const dateIndex = dates.findIndex(({details}) => {
         const dIndex = details.findIndex(v => v.id === detailId);
         if (dIndex === -1) return false;
@@ -47,26 +38,24 @@ export default class AccountHistoryDetailList {
       const {dateString, details} = dates[dateIndex];
       const detail = details[detailIndex];
       const {category, description, payment, price} = detail;
-      $detailAdder.dataset.id = detailId;
-      setDefaultValue($dateStringInput, getNumString(dateString));
-      setDefaultValue($categorySelect, category.id);
-      setDefaultValue($descriptionInput, description);
-      setDefaultValue($paymentSelect, payment.id || '');
-      setDefaultValue($priceInput, price.toLocaleString());
 
-      updateCategoryTypeToggleBtn(category.type);
-
-      const event = new Event('input', {
-        bubbles: true,
+      setHistoryDetailAdderForm({
+        id: detailId,
+        dateString: getNumString(dateString),
+        categoryId: category.id,
+        description,
+        paymentId: payment.id || '',
+        price: price.toLocaleString(),
       });
-      $categorySelect.dispatchEvent(event);
-      $paymentSelect.dispatchEvent(event);
+      updateCategoryTypeToggleBtn(category.type);
+      dispatchInputEventToAdderSelects();
 
       window.scrollTo({top: 0, behavior: 'smooth'});
     });
   }
 
   render() {
+    this.$target.innerHTML = '';
     new AccountHistoryDetailListHeader({$parent: this.$target, model: this.model});
     const {dates} = this.model.get('history');
     dates.forEach(date => {

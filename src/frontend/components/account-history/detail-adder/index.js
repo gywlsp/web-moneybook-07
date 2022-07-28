@@ -6,6 +6,7 @@ import {updateCategoryTypeToggleBtn} from '../../../utils/category.js';
 import AccountHistoryDetailAdderItem from './Item.js';
 import AccountHistoryDetailAdderSubmitBtn from './SubmitBtn.js';
 import {showLoadingIndicator, hideLoadingIndicator} from '../../../utils/loading.js';
+import {getHistoryDetailAdderItems, resetHistoryDetailAdderForm} from '../../../utils/history.js';
 
 const ADDER_ITEM_DATA = [
   {label: '일자', name: 'dateString', itemType: 'input'},
@@ -35,6 +36,7 @@ export default class AccountHistoryDetailAdder {
       showLoadingIndicator();
       await submit();
       await this.model.onHistoryMutate();
+      resetHistoryDetailAdderForm();
       hideLoadingIndicator();
     } catch (err) {
       alert(`수입/지출 내역 ${id === undefined ? '추가' : '수정'} 요청이 실패했습니다.`);
@@ -42,19 +44,8 @@ export default class AccountHistoryDetailAdder {
   }
 
   handleEvent() {
-    const $submitBtn = this.$target.querySelector('.history-detail-adder-submitBtn');
-    const $dateStringInput = this.$target.querySelector('input[name="dateString"]');
-    const $categorySelect = this.$target.querySelector('select[name="category"]');
-    const $descriptionInput = this.$target.querySelector('input[name="description"]');
-    const $paymentSelect = this.$target.querySelector('select[name="payment"]');
-    const $priceInput = this.$target.querySelector('input[name="price"]');
-
     const isFormValid = ({dateString, categoryId, description, paymentId, price}) =>
-      dateString.length === 8 &&
-      categoryId &&
-      description &&
-      ($paymentSelect.dataset.defaultValue === '' || paymentId) &&
-      price;
+      dateString.length === 8 && categoryId && description && paymentId && price;
 
     const isFormNotChanged = ({
       dateString,
@@ -74,7 +65,12 @@ export default class AccountHistoryDetailAdder {
       paymentId === defaultPaymentId &&
       price === defaultPrice;
 
-    this.$target.addEventListener('input', () => {
+    this.$target.addEventListener('input', e => {
+      if (e.target.id === 'confirm-modal-input') {
+        return;
+      }
+      const {$dateStringInput, $categorySelect, $descriptionInput, $paymentSelect, $priceInput} =
+        getHistoryDetailAdderItems(this.$target);
       const {
         value: dateString,
         dataset: {defaultValue: defaultDateString},
@@ -96,8 +92,15 @@ export default class AccountHistoryDetailAdder {
         dataset: {defaultValue: defaultPrice},
       } = $priceInput;
 
+      const $submitBtn = this.$target.querySelector('.history-detail-adder-submitBtn');
       $submitBtn.disabled =
-        !isFormValid({dateString, categoryId, description, paymentId, price}) ||
+        !isFormValid({
+          dateString,
+          categoryId,
+          description,
+          paymentId: $paymentSelect.dataset.defaultValue === '' || paymentId,
+          price,
+        }) ||
         (this.$target.dataset.id &&
           isFormNotChanged({
             dateString,
@@ -124,12 +127,14 @@ export default class AccountHistoryDetailAdder {
       }
 
       const $submitBtn = e.target.closest('.history-detail-adder-submitBtn');
-      if (!$submitBtn) return;
+      if (!$submitBtn || $submitBtn.disabled) return;
 
+      const {$dateStringInput, $categorySelect, $descriptionInput, $paymentSelect, $priceInput} =
+        getHistoryDetailAdderItems(this.$target);
       const dateString = addDot($dateStringInput.value);
       const categoryId = +$categorySelect.value;
       const description = $descriptionInput.value;
-      const paymentId = +$paymentSelect.value;
+      const paymentId = +$paymentSelect.value || null;
       const price = +getNumString($priceInput.value);
 
       this.formData = {
