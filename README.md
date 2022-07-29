@@ -27,6 +27,7 @@
 ### Built With
 
 * Vanilla JavaScript
+  * 옵저버 패턴(Observer Pattern)를 활용한 상태관리
   * [History API](https://developer.mozilla.org/ko/docs/Web/API/History_API)를 이용해 SPA 구현
   * [Canvas API](https://developer.mozilla.org/ko/docs/Web/API/Canvas_API)를 이용해 도넛 차트, 라인 차트 구현
   * [requestAnimationFrame Web API](https://developer.mozilla.org/ko/docs/Web/API/Window/requestAnimationFrame)를 이용한 애니메이션 구현
